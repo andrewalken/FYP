@@ -12,11 +12,15 @@
 		<relativePath />
 	</parent>
 
+    <!-- Output to jar format -->
+    <packaging>jar</packaging>
+
 	<groupId>com.mycompany</groupId>
-	<artifactId>Process_Pixels</artifactId>
+	<artifactId>Reconstruct</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
-	<name>Process Pixels</name>
+
+	<name>Reconstruct</name>
 	<description>A Maven project implementing an ImageJ 1.x plugin.</description>
 	<url>http://mycompany.com/imagej/process-pixels/</url>
 	<inceptionYear>2012</inceptionYear>
@@ -101,7 +105,7 @@
 
 	<properties>
 		<package-name>com.mycompany.imagej</package-name>
-		<main-class>com.mycompany.imagej.Reconstruction</main-class>
+		<main-class>com.mycompany.imagej.Reconstruct</main-class>
 		<license.licenseName>bsd_2</license.licenseName>
 		<license.copyrightOwners>My Company, Inc.</license.copyrightOwners>
 	</properties>

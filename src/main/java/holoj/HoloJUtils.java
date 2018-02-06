@@ -559,6 +559,8 @@ public final class HoloJUtils {
      * @param useButterworth            flag for using soft aperture.
      * @return the reconstructed image.
      */
+
+    //TODO: Drop this algo. use numerical propagation instead.
     public static HoloJProcessor reconstruct(int radius, int scaleFactor, Point sideCenter, HoloJProcessor hologram, boolean useButterworth) {
             hologram.doFFT();
             HoloJProcessor holoRec = hologram.getSideband(sideCenter,radius,scaleFactor,useButterworth);

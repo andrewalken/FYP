@@ -1,0 +1,14 @@
+holoj
+com.mycompany.imagej
+ij
+ij.util
+ij.io
+ij.plugin
+ij.plugin.frame
+ij.plugin.filter
+ij.plugin.tool
+ij.macro
+ij.gui
+ij.measure
+ij.text
+ij.process
