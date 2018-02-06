@@ -49,29 +49,10 @@ public class Reconstruct implements PlugInFilter {
 		width = ip.getWidth();
 		height = ip.getHeight();
 
-		if (showDialog()) {
-			process(ip);
-			image.updateAndDraw();
-		}
+
 	}
 
-	private boolean showDialog() {
-		GenericDialog gd = new GenericDialog("Process pixels");
 
-		// default value is 0.00, 2 digits right of the decimal point
-		gd.addNumericField("value", 0.00, 2);
-		gd.addStringField("name", "John");
-
-		gd.showDialog();
-		if (gd.wasCanceled())
-			return false;
-
-		// get entered values
-		value = gd.getNextNumber();
-		name = gd.getNextString();
-
-		return true;
-	}
 
 	/**
 	 * Process an image.
