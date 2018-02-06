@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e6427e6a-5e2c-4046-95ea-942bb6277b3d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java" afterPath="$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java" />
-    </list>
+    <list default="true" id="e6427e6a-5e2c-4046-95ea-942bb6277b3d" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,11 +12,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Reconstruct.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Reconstruct.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="36" column="18" lean-forward="true" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+            <state relative-caret-position="285">
+              <caret line="30" column="24" lean-forward="false" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UnwrapJ_.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/holoj/UnwrapJ_.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="60" column="77" lean-forward="true" selection-start-line="60" selection-start-column="77" selection-end-line="60" selection-end-column="77" />
               <folding />
             </state>
           </provider>
@@ -307,12 +315,12 @@
       <workItem from="1517507145456" duration="1527000" />
       <workItem from="1517776479995" duration="922000" />
       <workItem from="1517848137770" duration="13000" />
-      <workItem from="1517848189724" duration="2601000" />
+      <workItem from="1517848189724" duration="2736000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7627000" />
+    <option name="totallyTimeSpent" value="7762000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -543,8 +551,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="36" column="18" lean-forward="true" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+        <state relative-caret-position="285">
+          <caret line="30" column="24" lean-forward="false" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/holoj/UnwrapJ_.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="60" column="77" lean-forward="true" selection-start-line="60" selection-start-column="77" selection-end-line="60" selection-end-column="77" />
           <folding />
         </state>
       </provider>
