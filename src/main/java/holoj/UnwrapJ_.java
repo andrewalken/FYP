@@ -37,23 +37,13 @@ import ij.process.ImageProcessor;
     */
 
 public class UnwrapJ_ implements PlugInFilter {
-	/*
-	public static void main(String args[]) {
-		
-		UnwrapJ_ uw;// = new Interactive_3D_Surface_Plot();
-		
-		uw.image = IJ.getImage();
-		uw.run("");	
-		
-	}
-	*/
     
     public int setup(String arg, ImagePlus imp){
         return DOES_ALL;
     }
     
     public void run(ImageProcessor ip) {
-        IJ.log("unwrap called");
+        
         Calibration cal = IJ.getImage().getCalibration().copy();
         String title = IJ.getImage().getTitle();
         
