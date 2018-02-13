@@ -563,7 +563,7 @@ public class HoloJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("Custom Reconstruct");
+        jButton6.setText("Numerical Propagation");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);

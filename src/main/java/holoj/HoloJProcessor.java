@@ -40,25 +40,26 @@ public class HoloJProcessor {
         }
     }
 
-    public HoloJProcessor(int var1, int var2, double var3, double var5, double var7, double var9) {
-        if (var1 < 1) {
+    //Todo: Insert Numerical propagation here.
+    public HoloJProcessor(int width, int height, double dx, double dy, double distance, double wavelength) {
+        if (width < 1) {
             throw new ArrayStoreException("Constructor: width < 1.");
-        } else if (var2 < 1) {
+        } else if (height < 1) {
             throw new ArrayStoreException("Constructor: height < 1.");
         } else {
-            this.width = var1;
-            this.height = var2;
-            this.size = var1 * var2;
+            this.width = width;
+            this.height = height;
+            this.size = width * height;
             this.realPixels = new double[this.size];
             this.complexPixels = new double[this.size];
 
-            for(int var14 = 0; var14 < var2; ++var14) {
-                for(int var15 = 0; var15 < var1; ++var15) {
-                    int var11 = var14 * var1 + var15;
-                    int var13 = var14 - var2 / 2;
-                    int var12 = var15 - var1 / 2;
-                    this.realPixels[var11] = Math.cos(-3.141592653589793D * var9 * var7 * (1.0D * (double)var12 / ((double)var1 * var3) * (1.0D * (double)var12 / ((double)var1 * var3)) + 1.0D * (double)var13 / ((double)var2 * var5) * (1.0D * (double)var13 / ((double)var2 * var5))));
-                    this.complexPixels[var11] = Math.sin(-3.141592653589793D * var9 * var7 * (1.0D * (double)var12 / ((double)var1 * var3) * (1.0D * (double)var12 / ((double)var1 * var3)) + 1.0D * (double)var13 / ((double)var2 * var5) * (1.0D * (double)var13 / ((double)var2 * var5))));
+            for(int var7 = 0; var7 < height; ++var7) {
+                for(int var8 = 0; var8 < width; ++var8) {
+                    int var11 = var7 * width + var8;
+                    int var13 = var7 - height / 2;
+                    int var12 = var8 - width / 2;
+                    this.realPixels[var11] = Math.cos(-3.141592653589793D * wavelength * distance * (1.0D * (double)var12 / ((double)width * dx) * (1.0D * (double)var12 / ((double)width * dx)) + 1.0D * (double)var13 / ((double)height * dy) * (1.0D * (double)var13 / ((double)height * dy))));
+                    this.complexPixels[var11] = Math.sin(-3.141592653589793D * wavelength * distance * (1.0D * (double)var12 / ((double)width * dx) * (1.0D * (double)var12 / ((double)width * dx)) + 1.0D * (double)var13 / ((double)height * dy) * (1.0D * (double)var13 / ((double)height * dy))));
                 }
             }
 
