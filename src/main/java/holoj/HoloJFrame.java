@@ -23,6 +23,8 @@ import holoj.HoloJUtils;
 import holoj.HoloJProcessor;
 import java.util.Scanner;
 import ij.process.ImageProcessor;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -78,14 +80,14 @@ public class HoloJFrame extends javax.swing.JFrame {
 			dx=getDouble(dxTF);
 			dy=getDouble(dyTF);
 			distance=getDouble(distanceTF);
-            if (ref == null) 
-			{
+            if((ref==null) && (holo == null))
+            {
+                throw new ArrayStoreException("reconstruct: No hologram or reference selected.");
+            }
+			else if (ref == null)
+            {
                 rec = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
             }
-			else if((ref==null) && (holo == null))
-			{
-				throw new ArrayStoreException("reconstruct: No hologram or reference selected.");
-			}
 			else 
 			{
 				rec = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
@@ -296,6 +298,7 @@ public class HoloJFrame extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         amplitudeCB = new javax.swing.JCheckBox();
         phaseCB = new javax.swing.JCheckBox();
+        phaseCB.setSelected(true);
         jLabel7 = new javax.swing.JLabel();
         butterCB = new javax.swing.JCheckBox();
         jButton3 = new javax.swing.JButton();
@@ -822,8 +825,12 @@ public class HoloJFrame extends javax.swing.JFrame {
 	
 	private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         //sidebandFromFFT();
-		operate2();
-		//button6function();
+        if (amplitudeCB.isSelected() || phaseCB.isSelected() || butterCB.isSelected())
+		    operate2();
+        else
+            JOptionPane.showMessageDialog(null, "Please select Amplitude, Phase or Butterworth Filter", "ImageJ: " + "Error", JOptionPane.INFORMATION_MESSAGE);
+
+        //button6function();
     }                                        
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) { 

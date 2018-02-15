@@ -40,7 +40,9 @@ public class HoloJProcessor {
         }
     }
 
-    //Todo: Insert Numerical propagation here. 
+    //Todo: Insert Numerical propagation here.
+    //Chirp = exp(  (1i  *2*pi*distance/wavelength)*((temp.*(temp>=0)).^0.5)   ).*(temp>=0);
+
     public HoloJProcessor(int width, int height, double dx, double dy, double distance, double wavelength) {
         if (width < 1) {
             throw new ArrayStoreException("Constructor: width < 1.");
@@ -53,13 +55,14 @@ public class HoloJProcessor {
             this.realPixels = new double[this.size];
             this.complexPixels = new double[this.size];
 
-            for(int var7 = 0; var7 < height; ++var7) {
-                for(int var8 = 0; var8 < width; ++var8) {
-                    int var11 = var7 * width + var8;
-                    int var13 = var7 - height / 2;
-                    int var12 = var8 - width / 2;
-                    this.realPixels[var11] = Math.cos(-3.141592653589793D * wavelength * distance * (1.0D * (double)var12 / ((double)width * dx) * (1.0D * (double)var12 / ((double)width * dx)) + 1.0D * (double)var13 / ((double)height * dy) * (1.0D * (double)var13 / ((double)height * dy))));
-                    this.complexPixels[var11] = Math.sin(-3.141592653589793D * wavelength * distance * (1.0D * (double)var12 / ((double)width * dx) * (1.0D * (double)var12 / ((double)width * dx)) + 1.0D * (double)var13 / ((double)height * dy) * (1.0D * (double)var13 / ((double)height * dy))));
+
+            for(int m = 0; m < height; ++m) {
+                for(int n = 0; n < width; ++n) {
+                    int position = m * width + n;
+                    int y = m - height / 2;
+                    int x = n - width / 2;
+                    this.realPixels[position] = Math.cos(-3.141592653589793D * wavelength * distance * (1.0D * (double)x / ((double)width * dx) * (1.0D * (double)x / ((double)width * dx)) + 1.0D * (double)y / ((double)height * dy) * (1.0D * (double)y / ((double)height * dy))));
+                    this.complexPixels[position] = Math.sin(-3.141592653589793D * wavelength * distance * (1.0D * (double)x / ((double)width * dx) * (1.0D * (double)x / ((double)width * dx)) + 1.0D * (double)y / ((double)height * dy) * (1.0D * (double)y / ((double)height * dy))));
                 }
             }
 
