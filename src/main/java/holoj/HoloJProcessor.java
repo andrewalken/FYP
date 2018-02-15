@@ -41,7 +41,6 @@ public class HoloJProcessor {
     }
 
     //Todo: Insert Numerical propagation here.
-    //Chirp = exp(  (1i  *2*pi*distance/wavelength)*((temp.*(temp>=0)).^0.5)   ).*(temp>=0);
 
     public HoloJProcessor(int width, int height, double dx, double dy, double distance, double wavelength) {
         if (width < 1) {
@@ -54,18 +53,26 @@ public class HoloJProcessor {
             this.size = width * height;
             this.realPixels = new double[this.size];
             this.complexPixels = new double[this.size];
-
-
-            for(int m = 0; m < height; ++m) {
-                for(int n = 0; n < width; ++n) {
-                    int position = m * width + n;
-                    int y = m - height / 2;
-                    int x = n - width / 2;
-                    this.realPixels[position] = Math.cos(-3.141592653589793D * wavelength * distance * (1.0D * (double)x / ((double)width * dx) * (1.0D * (double)x / ((double)width * dx)) + 1.0D * (double)y / ((double)height * dy) * (1.0D * (double)y / ((double)height * dy))));
-                    this.complexPixels[position] = Math.sin(-3.141592653589793D * wavelength * distance * (1.0D * (double)x / ((double)width * dx) * (1.0D * (double)x / ((double)width * dx)) + 1.0D * (double)y / ((double)height * dy) * (1.0D * (double)y / ((double)height * dy))));
+            double[] temp =  new double[width*height];
+            int x,y,position;
+            for (int m=0;m<height;m++){
+                for (int n=0;n<width;n++){
+                    position = m * width + n;
+                    y = m - height / 2;
+                    x = n - width / 2;
+                    temp[position] = Math.pow((1-Math.pow(((wavelength*x)/(width*dx)),2) - Math.pow(((wavelength*y)/(height*dy)),2)),0.5);
                 }
             }
 
+            for(int m = 0; m < height; ++m) {
+                for(int n = 0; n < width; ++n) {
+                    position = m * width + n;
+                    if(temp[position]>=0) {
+                        this.realPixels[position] = Math.cos(((2 * Math.PI * distance)/wavelength)*temp[position]);
+                        this.complexPixels[position] = Math.sin(((2 * Math.PI * distance)/wavelength)*temp[position]);
+                    }
+                }
+            }
             this.setComplexOrigin();
         }
     }
