@@ -87,6 +87,7 @@ public class HoloJFrame extends javax.swing.JFrame {
 			else if (ref == null)
             {
                 recon = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
+
             }
 			else 
 			{

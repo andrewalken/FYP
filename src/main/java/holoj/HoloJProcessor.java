@@ -25,6 +25,18 @@ public class HoloJProcessor {
     private boolean isRealOrigin = true;
     private boolean isSpectrumDomain = false;
 
+    public HoloJProcessor(HoloJProcessor input){
+        this.realPixels = input.realPixels;
+        this.complexPixels = input.complexPixels;
+        this.width = input.width;
+        this.height = input.height;
+        this.size = input.size;
+        this.cal = input.cal;
+        this.title = input.title;
+        this.isRealOrigin = input.isRealOrigin;
+        this.isSpectrumDomain = input.isSpectrumDomain;
+    }
+
     public HoloJProcessor(int var1, int var2) {
         if (var1 < 1) {
             throw new ArrayStoreException("Constructor: width < 1.");

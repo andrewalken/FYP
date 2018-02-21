@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e6427e6a-5e2c-4046-95ea-942bb6277b3d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java" afterPath="$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java" afterPath="$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/holoj/HoloJProcessor.java" afterPath="$PROJECT_DIR$/src/main/java/holoj/HoloJProcessor.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java" afterPath="$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java" />
@@ -33,8 +32,8 @@
       <file leaf-file-name="Reconstruct.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="155" column="42" lean-forward="false" selection-start-line="155" selection-start-column="39" selection-end-line="155" selection-end-column="42" />
+            <state relative-caret-position="519">
+              <caret line="155" column="42" lean-forward="false" selection-start-line="155" selection-start-column="42" selection-end-line="155" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -66,13 +65,71 @@
       <file leaf-file-name="HoloJFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="521">
-              <caret line="96" column="37" lean-forward="true" selection-start-line="96" selection-start-column="37" selection-end-line="96" selection-end-column="37" />
+            <state relative-caret-position="167">
+              <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#8401#8490#0" expanded="true" />
-                <element signature="e#22645#22646#0" expanded="true" />
-                <element signature="e#22705#22706#0" expanded="true" />
+                <element signature="e#8402#8491#0" expanded="true" />
+                <element signature="e#10835#10836#0" expanded="true" />
+                <element signature="e#10892#10893#0" expanded="true" />
+                <element signature="e#11117#11118#0" expanded="true" />
+                <element signature="e#11174#11175#0" expanded="true" />
+                <element signature="e#11874#11875#0" expanded="true" />
+                <element signature="e#11932#11933#0" expanded="true" />
+                <element signature="e#12137#12138#0" expanded="true" />
+                <element signature="e#12197#12198#0" expanded="true" />
+                <element signature="e#15844#15845#0" expanded="true" />
+                <element signature="e#15899#15900#0" expanded="true" />
+                <element signature="e#15942#16103#0" expanded="true" />
+                <element signature="e#16102#16103#0" expanded="true" />
+                <element signature="e#16373#16374#0" expanded="true" />
+                <element signature="e#16428#16429#0" expanded="true" />
+                <element signature="e#16471#16632#0" expanded="true" />
+                <element signature="e#16631#16632#0" expanded="true" />
+                <element signature="e#16923#16924#0" expanded="true" />
+                <element signature="e#16983#16984#0" expanded="true" />
+                <element signature="e#17031#17197#0" expanded="true" />
+                <element signature="e#17196#17197#0" expanded="true" />
+                <element signature="e#17391#17392#0" expanded="true" />
+                <element signature="e#17451#17452#0" expanded="true" />
+                <element signature="e#17748#17749#0" expanded="true" />
+                <element signature="e#17807#17808#0" expanded="true" />
+                <element signature="e#17854#18019#0" expanded="true" />
+                <element signature="e#18018#18019#0" expanded="true" />
+                <element signature="e#21091#21092#0" expanded="true" />
+                <element signature="e#21151#21152#0" expanded="true" />
+                <element signature="e#21356#21357#0" expanded="true" />
+                <element signature="e#21419#21420#0" expanded="true" />
+                <element signature="e#21612#21613#0" expanded="true" />
+                <element signature="e#21671#21672#0" expanded="true" />
+                <element signature="e#22117#22118#0" expanded="true" />
+                <element signature="e#22177#22178#0" expanded="true" />
+                <element signature="e#22375#22376#0" expanded="true" />
+                <element signature="e#22435#22436#0" expanded="true" />
+                <element signature="e#22646#22647#0" expanded="true" />
+                <element signature="e#22706#22707#0" expanded="true" />
+                <element signature="e#22902#22903#0" expanded="true" />
+                <element signature="e#22962#22963#0" expanded="true" />
+                <element signature="e#23132#23294#0" expanded="true" />
+                <element signature="e#23293#23294#0" expanded="true" />
+                <element signature="e#23438#23439#0" expanded="true" />
+                <element signature="e#23494#23495#0" expanded="true" />
+                <element signature="e#23575#23737#0" expanded="true" />
+                <element signature="e#23736#23737#0" expanded="true" />
+                <element signature="e#23881#23882#0" expanded="true" />
+                <element signature="e#23937#23938#0" expanded="true" />
+                <element signature="e#24035#24205#0" expanded="true" />
+                <element signature="e#24204#24205#0" expanded="true" />
+                <element signature="e#24357#24358#0" expanded="true" />
+                <element signature="e#24421#24422#0" expanded="true" />
+                <element signature="e#24511#24679#0" expanded="true" />
+                <element signature="e#24678#24679#0" expanded="true" />
+                <element signature="e#24829#24830#0" expanded="true" />
+                <element signature="e#24891#24892#0" expanded="true" />
+                <element signature="e#39508#39509#0" expanded="true" />
+                <element signature="e#39575#39576#0" expanded="true" />
+                <element signature="e#39670#39671#0" expanded="true" />
+                <element signature="e#39737#39738#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,8 +148,8 @@
       <file leaf-file-name="HoloJUtils.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="436">
-              <caret line="587" column="61" lean-forward="true" selection-start-line="587" selection-start-column="61" selection-end-line="587" selection-end-column="61" />
+            <state relative-caret-position="645">
+              <caret line="922" column="29" lean-forward="false" selection-start-line="922" selection-start-column="29" selection-end-line="922" selection-end-column="29" />
               <folding>
                 <element signature="docComment;class#HoloJUtils#0" expanded="false" />
                 <element signature="docComment;method#modulus#0;class#HoloJUtils#0" expanded="false" />
@@ -169,30 +226,30 @@
       <file leaf-file-name="HoloJProcessor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1320">
-              <caret line="476" column="17" lean-forward="false" selection-start-line="476" selection-start-column="17" selection-end-line="476" selection-end-column="17" />
+            <state relative-caret-position="180">
+              <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
               <folding>
-                <element signature="e#0#28090#0" expanded="true" />
-                <element signature="method#HoloJProcessor#2;class#HoloJProcessor#0" expanded="false" />
+                <element signature="e#0#28510#0" expanded="true" />
                 <element signature="method#HoloJProcessor#3;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#HoloJProcessor#4;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#HoloJProcessor#5;class#HoloJProcessor#0" expanded="false" />
-                <element signature="e#8093#8094#0" expanded="true" />
-                <element signature="e#8131#8132#0" expanded="true" />
-                <element signature="e#8178#8179#0" expanded="true" />
-                <element signature="e#8219#8220#0" expanded="true" />
-                <element signature="e#8272#8273#0" expanded="true" />
-                <element signature="e#8310#8311#0" expanded="true" />
-                <element signature="e#8366#8367#0" expanded="true" />
-                <element signature="e#8407#8408#0" expanded="true" />
-                <element signature="e#8435#8436#0" expanded="true" />
-                <element signature="e#8467#8468#0" expanded="true" />
-                <element signature="e#8496#8497#0" expanded="true" />
-                <element signature="e#8529#8530#0" expanded="true" />
-                <element signature="e#8559#8560#0" expanded="true" />
-                <element signature="e#8593#8594#0" expanded="true" />
-                <element signature="e#8634#8635#0" expanded="true" />
-                <element signature="e#8678#8679#0" expanded="true" />
+                <element signature="method#HoloJProcessor#6;class#HoloJProcessor#0" expanded="false" />
+                <element signature="e#8513#8514#0" expanded="true" />
+                <element signature="e#8551#8552#0" expanded="true" />
+                <element signature="e#8598#8599#0" expanded="true" />
+                <element signature="e#8639#8640#0" expanded="true" />
+                <element signature="e#8692#8693#0" expanded="true" />
+                <element signature="e#8730#8731#0" expanded="true" />
+                <element signature="e#8786#8787#0" expanded="true" />
+                <element signature="e#8827#8828#0" expanded="true" />
+                <element signature="e#8855#8856#0" expanded="true" />
+                <element signature="e#8887#8888#0" expanded="true" />
+                <element signature="e#8916#8917#0" expanded="true" />
+                <element signature="e#8949#8950#0" expanded="true" />
+                <element signature="e#8979#8980#0" expanded="true" />
+                <element signature="e#9013#9014#0" expanded="true" />
+                <element signature="e#9054#9055#0" expanded="true" />
+                <element signature="e#9098#9099#0" expanded="true" />
                 <element signature="method#add#0;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#subtract#0;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#multiply#0;class#HoloJProcessor#0" expanded="false" />
@@ -207,22 +264,22 @@
                 <element signature="method#divide#2;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#addPhase#0;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#addPhasePlate#0;class#HoloJProcessor#0" expanded="false" />
-                <element signature="e#16089#16090#0" expanded="true" />
-                <element signature="e#16129#16130#0" expanded="true" />
-                <element signature="e#16167#16168#0" expanded="true" />
-                <element signature="e#16208#16209#0" expanded="true" />
-                <element signature="e#16260#16261#0" expanded="true" />
-                <element signature="e#16298#16299#0" expanded="true" />
-                <element signature="e#16341#16342#0" expanded="true" />
-                <element signature="e#16372#16373#0" expanded="true" />
-                <element signature="e#16413#16414#0" expanded="true" />
-                <element signature="e#16446#16447#0" expanded="true" />
-                <element signature="e#16478#16479#0" expanded="true" />
-                <element signature="e#16511#16512#0" expanded="true" />
+                <element signature="e#16509#16510#0" expanded="true" />
+                <element signature="e#16549#16550#0" expanded="true" />
+                <element signature="e#16587#16588#0" expanded="true" />
+                <element signature="e#16628#16629#0" expanded="true" />
+                <element signature="e#16680#16681#0" expanded="true" />
+                <element signature="e#16718#16719#0" expanded="true" />
+                <element signature="e#16761#16762#0" expanded="true" />
+                <element signature="e#16792#16793#0" expanded="true" />
+                <element signature="e#16833#16834#0" expanded="true" />
+                <element signature="e#16866#16867#0" expanded="true" />
+                <element signature="e#16898#16899#0" expanded="true" />
+                <element signature="e#16931#16932#0" expanded="true" />
                 <element signature="method#doRealToComplexFFT#0;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#doComplexToRealFFT#0;class#HoloJProcessor#0" expanded="false" />
-                <element signature="e#18958#18959#0" expanded="true" />
-                <element signature="e#19002#19003#0" expanded="true" />
+                <element signature="e#19378#19379#0" expanded="true" />
+                <element signature="e#19422#19423#0" expanded="true" />
                 <element signature="method#showPowerSpectrum#0;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#showSpectrum#0;class#HoloJProcessor#0" expanded="false" />
                 <element signature="method#showAmplitude#0;class#HoloJProcessor#0" expanded="false" />
@@ -263,7 +320,12 @@
       <find>phasecb</find>
       <find>ratio</find>
       <find>setText</find>
+      <find>inte</find>
+      <find>intensity</find>
+      <find>HoloJProcessor()</find>
       <find>rec</find>
+      <find>inten</find>
+      <find>intens</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -288,8 +350,8 @@
         <option value="$PROJECT_DIR$/src/main/java/CosinePlot_.java" />
         <option value="$PROJECT_DIR$/src/main/java/holoj/HoloJ_.java" />
         <option value="$PROJECT_DIR$/src/main/java/holoj/UnwrapJ_.java" />
-        <option value="$PROJECT_DIR$/src/main/java/holoj/HoloJProcessor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java" />
+        <option value="$PROJECT_DIR$/src/main/java/holoj/HoloJProcessor.java" />
         <option value="$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java" />
         <option value="$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java" />
       </list>
@@ -612,7 +674,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31717000" />
+    <option name="totallyTimeSpent" value="35490000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -633,27 +695,48 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14124872" sideWeight="0.526862" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14124872" sideWeight="0.529304" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14124872" sideWeight="0.47313797" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14124872" sideWeight="0.47069597" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.497558" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21733822" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21733822" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.497558" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16581371" sideWeight="0.48290598" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19856705" sideWeight="0.75518924" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14124872" sideWeight="0.526862" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16581371" sideWeight="0.48290598" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.495116" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3285568" sideWeight="0.490232" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.497558" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14124872" sideWeight="0.47313797" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.497558" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21733822" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -693,7 +776,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="64" />
+      <option name="time" value="75" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -718,9 +801,67 @@
           <caret line="43" column="33" lean-forward="false" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8401#8490#0" expanded="true" />
-            <element signature="e#22645#22646#0" expanded="true" />
-            <element signature="e#22705#22706#0" expanded="true" />
+            <element signature="e#8402#8491#0" expanded="true" />
+            <element signature="e#10835#10836#0" expanded="true" />
+            <element signature="e#10892#10893#0" expanded="true" />
+            <element signature="e#11117#11118#0" expanded="true" />
+            <element signature="e#11174#11175#0" expanded="true" />
+            <element signature="e#11874#11875#0" expanded="true" />
+            <element signature="e#11932#11933#0" expanded="true" />
+            <element signature="e#12137#12138#0" expanded="true" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#15844#15845#0" expanded="true" />
+            <element signature="e#15899#15900#0" expanded="true" />
+            <element signature="e#15942#16103#0" expanded="true" />
+            <element signature="e#16102#16103#0" expanded="true" />
+            <element signature="e#16373#16374#0" expanded="true" />
+            <element signature="e#16428#16429#0" expanded="true" />
+            <element signature="e#16471#16632#0" expanded="true" />
+            <element signature="e#16631#16632#0" expanded="true" />
+            <element signature="e#16923#16924#0" expanded="true" />
+            <element signature="e#16983#16984#0" expanded="true" />
+            <element signature="e#17031#17197#0" expanded="true" />
+            <element signature="e#17196#17197#0" expanded="true" />
+            <element signature="e#17391#17392#0" expanded="true" />
+            <element signature="e#17451#17452#0" expanded="true" />
+            <element signature="e#17748#17749#0" expanded="true" />
+            <element signature="e#17807#17808#0" expanded="true" />
+            <element signature="e#17854#18019#0" expanded="true" />
+            <element signature="e#18018#18019#0" expanded="true" />
+            <element signature="e#21091#21092#0" expanded="true" />
+            <element signature="e#21151#21152#0" expanded="true" />
+            <element signature="e#21356#21357#0" expanded="true" />
+            <element signature="e#21419#21420#0" expanded="true" />
+            <element signature="e#21612#21613#0" expanded="true" />
+            <element signature="e#21671#21672#0" expanded="true" />
+            <element signature="e#22117#22118#0" expanded="true" />
+            <element signature="e#22177#22178#0" expanded="true" />
+            <element signature="e#22375#22376#0" expanded="true" />
+            <element signature="e#22435#22436#0" expanded="true" />
+            <element signature="e#22646#22647#0" expanded="true" />
+            <element signature="e#22706#22707#0" expanded="true" />
+            <element signature="e#22902#22903#0" expanded="true" />
+            <element signature="e#22962#22963#0" expanded="true" />
+            <element signature="e#23132#23294#0" expanded="true" />
+            <element signature="e#23293#23294#0" expanded="true" />
+            <element signature="e#23438#23439#0" expanded="true" />
+            <element signature="e#23494#23495#0" expanded="true" />
+            <element signature="e#23575#23737#0" expanded="true" />
+            <element signature="e#23736#23737#0" expanded="true" />
+            <element signature="e#23881#23882#0" expanded="true" />
+            <element signature="e#23937#23938#0" expanded="true" />
+            <element signature="e#24035#24205#0" expanded="true" />
+            <element signature="e#24204#24205#0" expanded="true" />
+            <element signature="e#24357#24358#0" expanded="true" />
+            <element signature="e#24421#24422#0" expanded="true" />
+            <element signature="e#24511#24679#0" expanded="true" />
+            <element signature="e#24678#24679#0" expanded="true" />
+            <element signature="e#24829#24830#0" expanded="true" />
+            <element signature="e#24891#24892#0" expanded="true" />
+            <element signature="e#39508#39509#0" expanded="true" />
+            <element signature="e#39575#39576#0" expanded="true" />
+            <element signature="e#39670#39671#0" expanded="true" />
+            <element signature="e#39737#39738#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -921,6 +1062,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/javax/swing/plaf/basic/BasicButtonListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="251" column="36" lean-forward="true" selection-start-line="251" selection-start-column="36" selection-end-line="251" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="155" column="42" lean-forward="false" selection-start-line="155" selection-start-column="42" selection-end-line="155" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/io/FileInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="227" column="78" lean-forward="false" selection-start-line="227" selection-start-column="78" selection-end-line="227" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -932,77 +1096,103 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/javax/swing/plaf/basic/BasicButtonListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="251" column="36" lean-forward="true" selection-start-line="251" selection-start-column="36" selection-end-line="251" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mycompany/imagej/Reconstruct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="155" column="42" lean-forward="false" selection-start-line="155" selection-start-column="39" selection-end-line="155" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/io/FileInputStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="227" column="78" lean-forward="false" selection-start-line="227" selection-start-column="78" selection-end-line="227" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJ_.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="96" column="37" lean-forward="true" selection-start-line="96" selection-start-column="37" selection-end-line="96" selection-end-column="37" />
+        <state relative-caret-position="167">
+          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8401#8490#0" expanded="true" />
-            <element signature="e#22645#22646#0" expanded="true" />
-            <element signature="e#22705#22706#0" expanded="true" />
+            <element signature="e#8402#8491#0" expanded="true" />
+            <element signature="e#10835#10836#0" expanded="true" />
+            <element signature="e#10892#10893#0" expanded="true" />
+            <element signature="e#11117#11118#0" expanded="true" />
+            <element signature="e#11174#11175#0" expanded="true" />
+            <element signature="e#11874#11875#0" expanded="true" />
+            <element signature="e#11932#11933#0" expanded="true" />
+            <element signature="e#12137#12138#0" expanded="true" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#15844#15845#0" expanded="true" />
+            <element signature="e#15899#15900#0" expanded="true" />
+            <element signature="e#15942#16103#0" expanded="true" />
+            <element signature="e#16102#16103#0" expanded="true" />
+            <element signature="e#16373#16374#0" expanded="true" />
+            <element signature="e#16428#16429#0" expanded="true" />
+            <element signature="e#16471#16632#0" expanded="true" />
+            <element signature="e#16631#16632#0" expanded="true" />
+            <element signature="e#16923#16924#0" expanded="true" />
+            <element signature="e#16983#16984#0" expanded="true" />
+            <element signature="e#17031#17197#0" expanded="true" />
+            <element signature="e#17196#17197#0" expanded="true" />
+            <element signature="e#17391#17392#0" expanded="true" />
+            <element signature="e#17451#17452#0" expanded="true" />
+            <element signature="e#17748#17749#0" expanded="true" />
+            <element signature="e#17807#17808#0" expanded="true" />
+            <element signature="e#17854#18019#0" expanded="true" />
+            <element signature="e#18018#18019#0" expanded="true" />
+            <element signature="e#21091#21092#0" expanded="true" />
+            <element signature="e#21151#21152#0" expanded="true" />
+            <element signature="e#21356#21357#0" expanded="true" />
+            <element signature="e#21419#21420#0" expanded="true" />
+            <element signature="e#21612#21613#0" expanded="true" />
+            <element signature="e#21671#21672#0" expanded="true" />
+            <element signature="e#22117#22118#0" expanded="true" />
+            <element signature="e#22177#22178#0" expanded="true" />
+            <element signature="e#22375#22376#0" expanded="true" />
+            <element signature="e#22435#22436#0" expanded="true" />
+            <element signature="e#22646#22647#0" expanded="true" />
+            <element signature="e#22706#22707#0" expanded="true" />
+            <element signature="e#22902#22903#0" expanded="true" />
+            <element signature="e#22962#22963#0" expanded="true" />
+            <element signature="e#23132#23294#0" expanded="true" />
+            <element signature="e#23293#23294#0" expanded="true" />
+            <element signature="e#23438#23439#0" expanded="true" />
+            <element signature="e#23494#23495#0" expanded="true" />
+            <element signature="e#23575#23737#0" expanded="true" />
+            <element signature="e#23736#23737#0" expanded="true" />
+            <element signature="e#23881#23882#0" expanded="true" />
+            <element signature="e#23937#23938#0" expanded="true" />
+            <element signature="e#24035#24205#0" expanded="true" />
+            <element signature="e#24204#24205#0" expanded="true" />
+            <element signature="e#24357#24358#0" expanded="true" />
+            <element signature="e#24421#24422#0" expanded="true" />
+            <element signature="e#24511#24679#0" expanded="true" />
+            <element signature="e#24678#24679#0" expanded="true" />
+            <element signature="e#24829#24830#0" expanded="true" />
+            <element signature="e#24891#24892#0" expanded="true" />
+            <element signature="e#39508#39509#0" expanded="true" />
+            <element signature="e#39575#39576#0" expanded="true" />
+            <element signature="e#39670#39671#0" expanded="true" />
+            <element signature="e#39737#39738#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1320">
-          <caret line="476" column="17" lean-forward="false" selection-start-line="476" selection-start-column="17" selection-end-line="476" selection-end-column="17" />
+        <state relative-caret-position="180">
+          <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
           <folding>
-            <element signature="e#0#28090#0" expanded="true" />
-            <element signature="method#HoloJProcessor#2;class#HoloJProcessor#0" expanded="false" />
+            <element signature="e#0#28510#0" expanded="true" />
             <element signature="method#HoloJProcessor#3;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#HoloJProcessor#4;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#HoloJProcessor#5;class#HoloJProcessor#0" expanded="false" />
-            <element signature="e#8093#8094#0" expanded="true" />
-            <element signature="e#8131#8132#0" expanded="true" />
-            <element signature="e#8178#8179#0" expanded="true" />
-            <element signature="e#8219#8220#0" expanded="true" />
-            <element signature="e#8272#8273#0" expanded="true" />
-            <element signature="e#8310#8311#0" expanded="true" />
-            <element signature="e#8366#8367#0" expanded="true" />
-            <element signature="e#8407#8408#0" expanded="true" />
-            <element signature="e#8435#8436#0" expanded="true" />
-            <element signature="e#8467#8468#0" expanded="true" />
-            <element signature="e#8496#8497#0" expanded="true" />
-            <element signature="e#8529#8530#0" expanded="true" />
-            <element signature="e#8559#8560#0" expanded="true" />
-            <element signature="e#8593#8594#0" expanded="true" />
-            <element signature="e#8634#8635#0" expanded="true" />
-            <element signature="e#8678#8679#0" expanded="true" />
+            <element signature="method#HoloJProcessor#6;class#HoloJProcessor#0" expanded="false" />
+            <element signature="e#8513#8514#0" expanded="true" />
+            <element signature="e#8551#8552#0" expanded="true" />
+            <element signature="e#8598#8599#0" expanded="true" />
+            <element signature="e#8639#8640#0" expanded="true" />
+            <element signature="e#8692#8693#0" expanded="true" />
+            <element signature="e#8730#8731#0" expanded="true" />
+            <element signature="e#8786#8787#0" expanded="true" />
+            <element signature="e#8827#8828#0" expanded="true" />
+            <element signature="e#8855#8856#0" expanded="true" />
+            <element signature="e#8887#8888#0" expanded="true" />
+            <element signature="e#8916#8917#0" expanded="true" />
+            <element signature="e#8949#8950#0" expanded="true" />
+            <element signature="e#8979#8980#0" expanded="true" />
+            <element signature="e#9013#9014#0" expanded="true" />
+            <element signature="e#9054#9055#0" expanded="true" />
+            <element signature="e#9098#9099#0" expanded="true" />
             <element signature="method#add#0;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#subtract#0;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#multiply#0;class#HoloJProcessor#0" expanded="false" />
@@ -1017,22 +1207,22 @@
             <element signature="method#divide#2;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#addPhase#0;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#addPhasePlate#0;class#HoloJProcessor#0" expanded="false" />
-            <element signature="e#16089#16090#0" expanded="true" />
-            <element signature="e#16129#16130#0" expanded="true" />
-            <element signature="e#16167#16168#0" expanded="true" />
-            <element signature="e#16208#16209#0" expanded="true" />
-            <element signature="e#16260#16261#0" expanded="true" />
-            <element signature="e#16298#16299#0" expanded="true" />
-            <element signature="e#16341#16342#0" expanded="true" />
-            <element signature="e#16372#16373#0" expanded="true" />
-            <element signature="e#16413#16414#0" expanded="true" />
-            <element signature="e#16446#16447#0" expanded="true" />
-            <element signature="e#16478#16479#0" expanded="true" />
-            <element signature="e#16511#16512#0" expanded="true" />
+            <element signature="e#16509#16510#0" expanded="true" />
+            <element signature="e#16549#16550#0" expanded="true" />
+            <element signature="e#16587#16588#0" expanded="true" />
+            <element signature="e#16628#16629#0" expanded="true" />
+            <element signature="e#16680#16681#0" expanded="true" />
+            <element signature="e#16718#16719#0" expanded="true" />
+            <element signature="e#16761#16762#0" expanded="true" />
+            <element signature="e#16792#16793#0" expanded="true" />
+            <element signature="e#16833#16834#0" expanded="true" />
+            <element signature="e#16866#16867#0" expanded="true" />
+            <element signature="e#16898#16899#0" expanded="true" />
+            <element signature="e#16931#16932#0" expanded="true" />
             <element signature="method#doRealToComplexFFT#0;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#doComplexToRealFFT#0;class#HoloJProcessor#0" expanded="false" />
-            <element signature="e#18958#18959#0" expanded="true" />
-            <element signature="e#19002#19003#0" expanded="true" />
+            <element signature="e#19378#19379#0" expanded="true" />
+            <element signature="e#19422#19423#0" expanded="true" />
             <element signature="method#showPowerSpectrum#0;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#showSpectrum#0;class#HoloJProcessor#0" expanded="false" />
             <element signature="method#showAmplitude#0;class#HoloJProcessor#0" expanded="false" />
@@ -1052,10 +1242,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJ_.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="587" column="61" lean-forward="true" selection-start-line="587" selection-start-column="61" selection-end-line="587" selection-end-column="61" />
+        <state relative-caret-position="645">
+          <caret line="922" column="29" lean-forward="false" selection-start-line="922" selection-start-column="29" selection-end-line="922" selection-end-column="29" />
           <folding>
             <element signature="docComment;class#HoloJUtils#0" expanded="false" />
             <element signature="docComment;method#modulus#0;class#HoloJUtils#0" expanded="false" />

@@ -578,13 +578,11 @@ public final class HoloJUtils {
      * @return propogated HOLOJ Processor
      */
 	public static HoloJProcessor propogatefunc(HoloJProcessor hologram, int width, int height, double dx, double dy, double distance, double wavelength) {
-            HoloJProcessor propagated = new HoloJProcessor(hologram.realPixels, hologram.complexPixels, hologram.getWidth(), hologram.getHeight());
+            HoloJProcessor propagated = new HoloJProcessor(hologram);
 			propagated.doFFT();
-			hologram.doFFT();
 			HoloJProcessor chirp = new HoloJProcessor(width, height, dx, dy, distance, wavelength);//THIS returns a HOLOJPROCESSOR with math Done
-            propagated = multiply(chirp, hologram);
+            propagated = multiply(chirp, propagated);
 			propagated.doInverseFFT();
-			hologram.doInverseFFT();
             return propagated;//the propagated HoloJprocessor
     }
 	
@@ -898,5 +896,30 @@ public final class HoloJUtils {
             complexPixels[i]+=Math.sin(plateArray[i]);
         }
         return new HoloJProcessor(realPixels, complexPixels, processor.getWidth(), processor.getHeight());
+    }
+
+    public double[] intensity(HoloJProcessor hologram){
+        double[] intensity = new double[hologram.getSize()];
+        for(int i=0;i<hologram.getSize();i++){
+            intensity[i]=Math.pow(hologram.realPixels[i],2) + Math.pow(hologram.complexPixels[i],2);
+        }
+        return intensity;
+    }
+
+    public double average(double[] intensity, int size){
+        double average =0;
+        for (int i=0;i<size;i++){
+            average+=intensity[i];
+        }
+        return average/size;
+    }
+
+    public double variance(double[] intensity, int size){
+        double variance =0;
+        double average = average(intensity,size);
+        for (int i=0;i<size;i++){
+            variance+=Math.pow((intensity[i]-average),2);
+        }
+        return variance/size;
     }
 } 
