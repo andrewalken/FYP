@@ -50,7 +50,7 @@ public class HoloJFrame extends javax.swing.JFrame {
 	//private double dy = 0.00000345;
 	//private double distance = 0.00899;
 	//private double wavelength = 0.000000633;
-	HoloJProcessor holo,ref,rec;
+	private HoloJProcessor holo,ref,rec;
     
     private void operate(){//DONT EDIT
 		holo=getHologramProcessor();
@@ -73,7 +73,7 @@ public class HoloJFrame extends javax.swing.JFrame {
 		}
     } 
 	private void operate2(){
-			
+            HoloJProcessor recon;
 			//imageCal.pixelWidth *= ratio;
             //imageCal.pixelHeight *= ratio;
 			wavelength=getDouble(wavelengthTF);
@@ -86,17 +86,17 @@ public class HoloJFrame extends javax.swing.JFrame {
             }
 			else if (ref == null)
             {
-                rec = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
+                recon = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
             }
 			else 
 			{
-				rec = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
+				recon = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
 
             }
             //rec.setCalibration(imageCal);
-            rec.setTitle(""+title);
-			if (phase) rec.showPhase("Hologram : "+rec.getTitle()+" : Phase");
-            if (amplitude) rec.showAmplitude("Hologram : "+rec.getTitle()+" : Amplitude");
+            recon.setTitle(""+title);
+			if (phase) recon.showPhase("Hologram : "+recon.getTitle()+" : Phase");
+            if (amplitude) recon.showAmplitude("Hologram : "+recon.getTitle()+" : Amplitude");
         }
    
     private ImagePlus createSidebandImage(HoloJProcessor hologram){
@@ -298,7 +298,6 @@ public class HoloJFrame extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         amplitudeCB = new javax.swing.JCheckBox();
         phaseCB = new javax.swing.JCheckBox();
-        phaseCB.setSelected(true);
         jLabel7 = new javax.swing.JLabel();
         butterCB = new javax.swing.JCheckBox();
         jButton3 = new javax.swing.JButton();

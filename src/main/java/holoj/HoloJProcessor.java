@@ -40,8 +40,6 @@ public class HoloJProcessor {
         }
     }
 
-    //Todo: Insert Numerical propagation here.
-
     public HoloJProcessor(int width, int height, double dx, double dy, double distance, double wavelength) {
         if (width < 1) {
             throw new ArrayStoreException("Constructor: width < 1.");

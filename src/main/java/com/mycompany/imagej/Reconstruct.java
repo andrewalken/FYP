@@ -8,6 +8,7 @@
 
 package com.mycompany.imagej;
 
+import holoj.HoloJ_;
 import ij.IJ;
 import ij.ImageJ;
 import ij.ImagePlus;
@@ -151,7 +152,7 @@ public class Reconstruct implements PlugInFilter {
 	 */
 	public static void main(String[] args) {
 		// set the plugins.dir property to make the plugin appear in the Plugins menu
-		Class<?> clazz = Reconstruct.class;
+		Class<?> clazz = HoloJ_.class;
 		String url = clazz.getResource("/" + clazz.getName().replace('.', '/') + ".class").toString();
 		String pluginsDir = url.substring("file:".length(), url.length() - clazz.getName().length() - ".class".length());
 		System.setProperty("plugins.dir", pluginsDir);
@@ -160,8 +161,8 @@ public class Reconstruct implements PlugInFilter {
 		new ImageJ();
 
 		// open the sample
-		ImagePlus image = IJ.openImage("/Users/andrewalken/Documents/Project/Intellij/FYP/src/main/resources/test.tif");
-		image.show();
+		//ImagePlus image = IJ.openImage("/Users/andrewalken/Documents/Project/Intellij/FYP/src/main/resources/test.tif");
+		//image.show();
 
 		// run the plugin
 		IJ.runPlugIn(clazz.getName(), "");

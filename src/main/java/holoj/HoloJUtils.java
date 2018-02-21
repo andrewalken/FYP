@@ -554,7 +554,6 @@ public final class HoloJUtils {
      * 
      * @param radius			radius of reconstructed frequency region.
      * @param scaleFactor		scale factor of final reconstructed image.
-     * @param side			upper or lower region.
      * @param hologram                  hologram to be reconstructed.
      * @param useButterworth            flag for using soft aperture.
      * @return the reconstructed image.
@@ -573,25 +572,24 @@ public final class HoloJUtils {
      * calls doFFT on the passed in holoJprocessor, then does the getChirp(line 274 on HJPro class) on the origional HoloJprocessor passing results into  HoloJprocessor propogated, then
 	 * does the inverseFFT, this then finally returns the HoloJprocessor called propogated.
      * @param hologram, this is the image
-     * @param int witdth and height are the images dimensions
      * @param dx and dy are set varibles
      * @param distance needs to be a changable value
      * @param wavelength is a set value too
      * @return propogated HOLOJ Processor
      */
 	public static HoloJProcessor propogatefunc(HoloJProcessor hologram, int width, int height, double dx, double dy, double distance, double wavelength) {
-            //HoloJProcessor propagated = new HoloJProcessor(/*hologram.realPixels, hologram.complexPixels,*/ width, height);
-			//propagated.doFFT();
+            HoloJProcessor propagated = new HoloJProcessor(hologram.realPixels, hologram.complexPixels, hologram.getWidth(), hologram.getHeight());
+			propagated.doFFT();
 			hologram.doFFT();
 			HoloJProcessor chirp = new HoloJProcessor(width, height, dx, dy, distance, wavelength);//THIS returns a HOLOJPROCESSOR with math Done
-            hologram = multiply(chirp, hologram);
+            propagated = multiply(chirp, hologram);
+			propagated.doInverseFFT();
 			hologram.doInverseFFT();
-            return hologram;//the propogated HoloJprocessor
+            return propagated;//the propagated HoloJprocessor
     }
 	
-	/*SAME METHOD AS LAST BUT PASSES REFERANCE TOO*/
+	/*SAME METHOD AS LAST BUT PASSES REFERENCE TOO*/
 	public static HoloJProcessor propogatefunc(HoloJProcessor hologram, HoloJProcessor ref, int width, int height, double dx, double dy, double distance, double wavelength) {
-            HoloJProcessor propagated = new HoloJProcessor( width, height);
 			hologram.doFFT();
 			HoloJProcessor chirp = new HoloJProcessor(width, height, dx, dy, distance, wavelength);//THIS returns a HOLOJPROCESSOR
             hologram = multiply(chirp, hologram);
@@ -601,7 +599,7 @@ public final class HoloJUtils {
 			ref.doFFT();
 			ref = multiply(chirp, ref);
 			ref.doInverseFFT();
-			propagated = HoloJUtils.divide(ref, hologram);
+            HoloJProcessor propagated = HoloJUtils.divide(ref, hologram);
 			
             return propagated;
     }
@@ -613,7 +611,7 @@ public final class HoloJUtils {
      * 
      * @param radius			radius of reconstructed frequency region.
      * @param scaleFactor		scale factor of final reconstructed image.
-     * @param side			upper or lower region.
+     * @param sideCenter			upper or lower region.
      * @param hologram                  hologram to be reconstructed.
      * @param reference                 hologram used as reference in void.
      * @param useButterworth            flag for using soft aperture.
