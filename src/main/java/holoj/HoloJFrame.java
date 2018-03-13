@@ -6,24 +6,22 @@
 
 package holoj;
 import ij.IJ;
-import ij.ImageListener;
 import ij.ImagePlus;
 import ij.WindowManager;
-import ij.gui.OvalRoi;
-import ij.gui.Roi;
 import ij.io.OpenDialog;
 import ij.io.Opener;
 import ij.measure.Calibration;
 import ij.util.Java2;
-import java.awt.Point;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import holoj.HoloJUtils;
-import holoj.HoloJProcessor;
-import java.util.Scanner;
+
+import java.awt.*;
+import javax.swing.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
 import ij.process.ImageProcessor;
-import javax.swing.JOptionPane;
 
 
 /**
@@ -35,7 +33,6 @@ public class HoloJFrame extends javax.swing.JFrame {
     
     private int x=0;
     private int y=0;
-    private Point sideCenter = new Point();
     private int radius=50;
     private int ratio=2;
     private boolean butterworth=false;
@@ -51,21 +48,41 @@ public class HoloJFrame extends javax.swing.JFrame {
 	//private double distance = 0.00899;
 	//private double wavelength = 0.000000633;
 	private HoloJProcessor holo,ref,rec;
-    
+	private double Tolerance,Sigma;
+	private int Iterations;
+
+
+
+	/*
+
+	get sqrt of holo => Intensity || new HoloJprocessor that returns real = sqrt(raw)
+	input = abs ( Intensity)
+	make raw_abs = input
+	 */
     private void operate(){//DONT EDIT
 		holo=getHologramProcessor();
 		ref=getReferenceProcessor();
+        dx=getDouble(dxTF);
+        dy=getDouble(dyTF);
+        Tolerance=getDouble(toleranceTF);
+        wavelength=getDouble(wavelengthTF);
+        distance=getDouble(distanceTF);
+        Sigma=getDouble(sigmaTF);
+        Iterations=getInteger(iterationsTF);
          
         if (holo == null) 
             throw new ArrayStoreException("reconstruct: No hologram selected.");
         else 
 		{
-            //imageCal.pixelWidth *= ratio;
-            //imageCal.pixelHeight *= ratio;
-			rec = HoloJUtils.reconstruct(radius,ratio,sideCenter,holo,butterworth);
+
+			//rec = HoloJUtils.reconstruct(holo.getWidth(),1,sideCenter,holo,butterworth);
+            rec = HoloJUtils.reconstruct(holo,distance,wavelength,Iterations,Tolerance,Sigma);
             if (ref != null) 
 			{
-				rec = HoloJUtils.reconstruct(radius,ratio,sideCenter,ref,holo,butterworth);
+			    Point p = new Point();
+			    p.x = holo.getWidth()/2;
+                p.y = holo.getHeight()/2;
+				rec = HoloJUtils.reconstruct(radius,ratio,p,ref,holo,butterworth);
             }
 			//rec.setCalibration(imageCal);
             rec.setTitle(""+title);
@@ -77,8 +94,6 @@ public class HoloJFrame extends javax.swing.JFrame {
 			//imageCal.pixelWidth *= ratio;
             //imageCal.pixelHeight *= ratio;
 			wavelength=getDouble(wavelengthTF);
-			dx=getDouble(dxTF);
-			dy=getDouble(dyTF);
 			distance=getDouble(distanceTF);
             if((ref==null) && (holo == null))
             {
@@ -86,12 +101,12 @@ public class HoloJFrame extends javax.swing.JFrame {
             }
 			else if (ref == null)
             {
-                recon = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
+                recon = HoloJUtils.propogatefunc(rec, distance, wavelength);
 
             }
 			else 
 			{
-				recon = HoloJUtils.propogatefunc(rec, rec.getWidth(),rec.getHeight(), dx, dy, distance, wavelength);
+				recon = HoloJUtils.propogatefunc(rec, distance, wavelength);
 
             }
             //rec.setCalibration(imageCal);
@@ -99,24 +114,19 @@ public class HoloJFrame extends javax.swing.JFrame {
 			if (phase) recon.showPhase("Hologram : "+recon.getTitle()+" : Phase");
             if (amplitude) recon.showAmplitude("Hologram : "+recon.getTitle()+" : Amplitude");
         }
-   
-    private ImagePlus createSidebandImage(HoloJProcessor hologram){
-         
-        ImagePlus imp;    
-        int size=hologram.getHeight();
-        int l=hologram.getWidth();
-        int side=getInteger(ratioTF);
-        int r=getInteger(radiusTF);
-             
-        hologram.doFFT();
-        sideCenter=hologram.getSidebandCenter(ratio);
-        imp=hologram.makeSpectrumImage("Select Sideband");
-        OvalRoi or=new OvalRoi(sideCenter.x-r,sideCenter.y-r,2*r,2*r);
-        imp.setRoi(or);
-        
-        return imp;
+
+    private void previewImage() {
+        holo=getHologramProcessor();
+        Tolerance=getDouble(toleranceTF);
+        wavelength=getDouble(wavelengthTF);
+        distance=getDouble(distanceTF);
+        Sigma=getDouble(sigmaTF);
+        Iterations=getInteger(iterationsTF);
+        HoloJUtils.previewPoints(holo,distance,wavelength,Iterations,Tolerance,Sigma);
+
     }
-    
+
+
     /** Creates new form HoloJFrame */
     public HoloJFrame() {
         Java2.setSystemLookAndFeel();
@@ -195,7 +205,7 @@ public class HoloJFrame extends javax.swing.JFrame {
         if(imp!=null) {
             imageCal = imp.getCalibration().copy();
             title = imp.getTitle();
-            proc=new HoloJProcessor(imp.getProcessor());
+            proc=new HoloJProcessor(imp.getProcessor(),getDouble(dxTF),getDouble(dyTF));
         }
         return proc;
     }
@@ -203,34 +213,10 @@ public class HoloJFrame extends javax.swing.JFrame {
     private HoloJProcessor getReferenceProcessor(){
         HoloJProcessor proc=null;
         ImagePlus imp=getImage(refCB);
-        if(imp!=null) proc=new HoloJProcessor(imp.getProcessor());
+        if(imp!=null) proc=new HoloJProcessor(imp.getProcessor(),getDouble(dxTF),getDouble(dyTF));
         return proc;
     }
-    
-    private void sidebandFromFFT(){
-        hp=getHologramProcessor();
-        if(hp!=null){
-            ImagePlus imp=createSidebandImage(hp);
-            imp.addImageListener(
-                new ImageListener(){
-                    public void imageClosed(ImagePlus ip){
-                        Roi sel = ip.getRoi(); 
-                        if(ip.getRoi()!=null) {
-                            sideCenter = HoloJUtils.getMaximumPosition(hp,sel);
-                            //radiusTF.setText((Math.max(h,w)>>1)+"");
-                            xTF.setText(((int)sideCenter.x)+"");
-                            yTF.setText(((int)sideCenter.y)+"");
-                        }
-                        ImagePlus.removeImageListener(this);
-                    }
-                    public void imageUpdated(ImagePlus ip){}
-                    public void imageOpened(ImagePlus ip){}
-                }
-            );
-            
-            imp.show();
-        }
-    }
+
 	
 	private void button6function(){
 		IJ.log(" button custom reconstruct pressed");
@@ -274,59 +260,59 @@ public class HoloJFrame extends javax.swing.JFrame {
     private void initComponents() {
 		
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        pathTF = new javax.swing.JTextField();
-        pathB = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        holoB = new javax.swing.JButton();
-        holoCB = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
-        refCB = new javax.swing.JComboBox();
-        rholoB = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        xTF = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        yTF = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        radiusTF = new javax.swing.JTextField();
+        jPanel1 = new JPanel();
+        jLabel1 = new JLabel();
+        pathTF = new JTextField();
+        pathB = new JButton();
+        jLabel2 = new JLabel();
+        holoB = new JButton();
+        holoCB = new JComboBox();
+        jLabel3 = new JLabel();
+        refCB = new JComboBox();
+        rholoB = new JButton();
+        jButton1 = new JButton();
+        jPanel2 = new JPanel();
+        jLabel4 = new JLabel();
+        toleranceTF = new JTextField();
+        jLabel5 = new JLabel();
+        sigmaTF = new JTextField();
+        jLabel6 = new JLabel();
+        iterationsTF = new JTextField();
         jButton4 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        ratioTF = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        amplitudeCB = new javax.swing.JCheckBox();
-        phaseCB = new javax.swing.JCheckBox();
-        jLabel7 = new javax.swing.JLabel();
-        butterCB = new javax.swing.JCheckBox();
-        jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-		dxTF = new javax.swing.JTextField();
-        dyTF = new javax.swing.JTextField();
-        wavelengthTF = new javax.swing.JTextField();
-        distanceTF = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        jLabel8 = new JLabel();
+        ratioTF = new JTextField();
+        jPanel3 = new JPanel();
+        jButton5 = new JButton();
+        amplitudeCB = new JCheckBox();
+        phaseCB = new JCheckBox();
+        jLabel7 = new JLabel();
+        butterCB = new JCheckBox();
+        jButton3 = new JButton();
+        jButton6 = new JButton();
+        jButton2 = new JButton();
+		dxTF = new JTextField();
+        dyTF = new JTextField();
+        wavelengthTF = new JTextField();
+        distanceTF = new JTextField();
+        jLabel9 = new JLabel();
+        jLabel10 = new JLabel();
+        jLabel11 = new JLabel();
+        jLabel12 = new JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("HoloJ");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Files"));
+        jPanel1.setBorder(BorderFactory.createTitledBorder("Files"));
 
         jLabel1.setText("Path");
 
         pathTF.setText("No Directory Selected");
-        pathTF.setMaximumSize(new java.awt.Dimension(500, 20));
-        pathTF.setPreferredSize(new java.awt.Dimension(50, 20));
+        pathTF.setMaximumSize(new Dimension(500, 20));
+        pathTF.setPreferredSize(new Dimension(50, 20));
 
         pathB.setText("...");
-        pathB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        pathB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 pathBActionPerformed(evt);
             }
         });
@@ -334,215 +320,216 @@ public class HoloJFrame extends javax.swing.JFrame {
         jLabel2.setText("Hologram");
 
         holoB.setText("...");
-        holoB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        holoB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 holoBActionPerformed(evt);
             }
         });
 
         holoCB.setEditable(true);
         holoCB.setMaximumRowCount(5);
-        holoCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No Image Selected" }));
-        holoCB.setMaximumSize(new java.awt.Dimension(138, 22));
+        holoCB.setModel(new DefaultComboBoxModel(new String[] { "No Image Selected" }));
+        holoCB.setMaximumSize(new Dimension(138, 22));
 
         jLabel3.setText("Reference");
 
         refCB.setEditable(true);
         refCB.setMaximumRowCount(5);
-        refCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No Image Selected" }));
-        refCB.setMaximumSize(new java.awt.Dimension(138, 22));
+        refCB.setModel(new DefaultComboBoxModel(new String[] { "No Image Selected" }));
+        refCB.setMaximumSize(new Dimension(138, 22));
 
         rholoB.setText("...");
-        rholoB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        rholoB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 rholoBActionPerformed(evt);
             }
         });
 
         jButton1.setText("Reset File List");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addGap(45, 45, 45)
-                .addComponent(pathTF, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pathTF, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
-                .addComponent(pathB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pathB, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addGap(6, 6, 6)
-                .addComponent(holoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(holoCB, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(holoB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(holoB, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel3)
                 .addGap(7, 7, 7)
-                .addComponent(refCB, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(refCB, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(rholoB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(rholoB, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(jButton1))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(pathTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pathB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pathTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pathB, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(holoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(holoB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(holoCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(holoB, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(refCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rholoB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(refCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rholoB, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addComponent(jButton1))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Sideband"));
+        jPanel2.setBorder(BorderFactory.createTitledBorder("Phase Retrieval"));
 
-        jLabel4.setText("x");
+        jLabel4.setText("Tolerance");
 
-        xTF.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        xTF.setText("0");
-        xTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                xTFActionPerformed(evt);
+        toleranceTF.setHorizontalAlignment(JTextField.TRAILING);
+        toleranceTF.setText("3");
+        toleranceTF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                toleranceTFActionPerformed(evt);
             }
         });
-        xTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                xTFFocusLost(evt);
-            }
-        });
+        toleranceTF.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
 
-        jLabel5.setText("y");
-
-        yTF.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        yTF.setText("0");
-        yTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                yTFActionPerformed(evt);
-            }
-        });
-        yTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                yTFFocusLost(evt);
+                toleranceTFFocusLost(evt);
             }
         });
 
-        jLabel6.setText("Radius");
+        jLabel5.setText("Radius");
 
-        radiusTF.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        radiusTF.setText("50");
-        radiusTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radiusTFActionPerformed(evt);
+        sigmaTF.setHorizontalAlignment(JTextField.TRAILING);
+        sigmaTF.setText("2");
+        sigmaTF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                sigmaTFActionPerformed(evt);
             }
         });
-        radiusTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                radiusTFFocusLost(evt);
+        sigmaTF.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
+                sigmaTFFocusLost(evt);
             }
         });
 
-        jButton4.setText("Select from FFT");
+        jLabel6.setText("Iterations");
+
+        iterationsTF.setHorizontalAlignment(JTextField.TRAILING);
+        iterationsTF.setText("1");
+        iterationsTF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                iterationsTFActionPerformed(evt);
+            }
+        });
+        iterationsTF.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
+                iterationsTFFocusLost(evt);
+            }
+        });
+
+        jButton4.setText("Preview");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jLabel8.setText("Ratio");
+        jLabel8.setText("TBC");
 
-        ratioTF.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        ratioTF.setHorizontalAlignment(JTextField.TRAILING);
         ratioTF.setText("4");
-        ratioTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ratioTF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 ratioTFActionPerformed(evt);
             }
         });
-        ratioTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
+        ratioTF.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
                 ratioTFFocusLost(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(jLabel4)
                 .addGap(4, 4, 4)
-                .addComponent(xTF, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(toleranceTF, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
-                .addComponent(ratioTF, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(ratioTF, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(jLabel5)
                 .addGap(4, 4, 4)
-                .addComponent(yTF, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sigmaTF, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel6)
                 .addGap(7, 7, 7)
-                .addComponent(radiusTF, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(iterationsTF, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(xTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toleranceTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(ratioTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ratioTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(yTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sigmaTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(radiusTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(iterationsTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addComponent(jButton4))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Reconstruct"));
+        jPanel3.setBorder(BorderFactory.createTitledBorder("Reconstruct"));
 
         jButton5.setText("Reconstruct");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
 
         amplitudeCB.setText("Amplitude");
-        amplitudeCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        amplitudeCB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 amplitudeCBActionPerformed(evt);
             }
         });
 
         phaseCB.setText("Phase");
-        phaseCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        phaseCB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 phaseCBActionPerformed(evt);
             }
         });
@@ -550,80 +537,80 @@ public class HoloJFrame extends javax.swing.JFrame {
         jLabel7.setText("Extract:");
 
         butterCB.setText("Butterworth Filter");
-        butterCB.setMaximumSize(new java.awt.Dimension(135, 25));
-        butterCB.setMinimumSize(new java.awt.Dimension(135, 25));
-        butterCB.setPreferredSize(new java.awt.Dimension(135, 25));
-        butterCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        butterCB.setMaximumSize(new Dimension(135, 25));
+        butterCB.setMinimumSize(new Dimension(135, 25));
+        butterCB.setPreferredSize(new Dimension(135, 25));
+        butterCB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 butterCBActionPerformed(evt);
             }
         });
 
         jButton3.setText("3D graph");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
         jButton6.setText("Numerical Propagation");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
 
         jButton2.setText("UnWrap");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 /////////////////////////////////////////////////////////////////////////////////////////
         dxTF.setText("0.00000345");
-        dxTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
+        dxTF.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
                 dxTFFocusLost(evt);
             }
         });
-        dxTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        dxTF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 dxTFActionPerformed(evt);
             }
         });
 
         dyTF.setText("0.00000345");
-        dyTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
+        dyTF.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
                 dyTFFocusLost(evt);
             }
         });
-        dyTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        dyTF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 dyTFActionPerformed(evt);
             }
         });
 
         wavelengthTF.setText("0.000000633");
-        wavelengthTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
+        wavelengthTF.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
                 wavelengthTFFocusLost(evt);
             }
         });
-        wavelengthTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        wavelengthTF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 wavelengthTFActionPerformed(evt);
             }
         });
 
         distanceTF.setText("0.00899");
-        distanceTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
+        distanceTF.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
                 distanceTFFocusLost(evt);
             }
         });
-        distanceTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        distanceTF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 distanceTFActionPerformed(evt);
             }
         });
@@ -636,133 +623,133 @@ public class HoloJFrame extends javax.swing.JFrame {
 
         jLabel12.setText("distance");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(amplitudeCB, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(amplitudeCB, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(jLabel7))
-                            .addComponent(phaseCB, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(butterCB, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(phaseCB, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(butterCB, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addComponent(dxTF)
                             .addComponent(dyTF))))
                 .addGap(28, 28, 28)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton5, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel11)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(wavelengthTF, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(wavelengthTF, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel12)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(distanceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(distanceTF, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton3, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton6, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
         );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(phaseCB, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(phaseCB, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(amplitudeCB)
                                 .addGap(1, 1, 1)
-                                .addComponent(butterCB, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(butterCB, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jButton5)
                                 .addGap(29, 29, 29)
                                 .addComponent(jButton6)))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dxTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wavelengthTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(dxTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(wavelengthTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)))
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(dyTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(distanceTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(dyTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(distanceTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel12))
                     .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>                              
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void radiusTFFocusLost(java.awt.event.FocusEvent evt) {                                   
-        radius = getInteger(radiusTF);
+    private void iterationsTFFocusLost(java.awt.event.FocusEvent evt) {
+        radius = getInteger(iterationsTF);
     }                                  
 
     private void ratioTFFocusLost(java.awt.event.FocusEvent evt) {                                  
         ratio = getInteger(ratioTF);
     }                                 
 
-    private void yTFFocusLost(java.awt.event.FocusEvent evt) {                              
-        sideCenter.y = getInteger(yTF);
+    private void sigmaTFFocusLost(java.awt.event.FocusEvent evt) {
+        //TBC = getInteger(yTF);
     }                             
 
-    private void xTFFocusLost(java.awt.event.FocusEvent evt) {                              
-        sideCenter.x = getInteger(xTF);
+    private void toleranceTFFocusLost(java.awt.event.FocusEvent evt) {
+        Tolerance = getDouble(toleranceTF);
     }                             
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -781,20 +768,20 @@ public class HoloJFrame extends javax.swing.JFrame {
         butterworth=getBoolean(butterCB);
     }                                        
 
-    private void yTFActionPerformed(java.awt.event.ActionEvent evt) {                                    
-        sideCenter.y=getInteger(yTF);
+    private void sigmaTFActionPerformed(java.awt.event.ActionEvent evt) {
+        //TBC = getInteger(yTF);
     }                                   
 
-    private void xTFActionPerformed(java.awt.event.ActionEvent evt) {                                    
-        sideCenter.x=getInteger(xTF);
+    private void toleranceTFActionPerformed(java.awt.event.ActionEvent evt) {
+        Tolerance = getDouble(toleranceTF);
     }                                   
 
     private void ratioTFActionPerformed(java.awt.event.ActionEvent evt) {                                        
         ratio=getInteger(ratioTF);
     }                                       
 
-    private void radiusTFActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        radius=getInteger(radiusTF);
+    private void iterationsTFActionPerformed(java.awt.event.ActionEvent evt) {
+        radius=getInteger(iterationsTF);
     }                                        
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -814,11 +801,11 @@ public class HoloJFrame extends javax.swing.JFrame {
        setDir(pathTF);
     }                                     
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        sidebandFromFFT();
-    }                                        
-	
-	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
+        previewImage();
+    }
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         //sidebandFromFFT();
 		button3function(); 
     }                                        
@@ -859,13 +846,13 @@ public class HoloJFrame extends javax.swing.JFrame {
 
     private void distanceTFFocusLost(java.awt.event.FocusEvent evt) {                                     
         distance = getDouble(distanceTF);
-    }                                    
+    }
 
-    private void dyTFFocusLost(java.awt.event.FocusEvent evt) {                               
+    private void dyTFFocusLost(java.awt.event.FocusEvent evt) {
         dy = getDouble(dyTF);
-    }                              
+    }
 
-    private void dxTFFocusLost(java.awt.event.FocusEvent evt) {                               
+    private void dxTFFocusLost(java.awt.event.FocusEvent evt) {
         dx = getDouble(dxTF);
     }
 
@@ -901,13 +888,13 @@ public class HoloJFrame extends javax.swing.JFrame {
     private javax.swing.JButton pathB;
     private javax.swing.JTextField pathTF;
     private javax.swing.JCheckBox phaseCB;
-    private javax.swing.JTextField radiusTF;
+    private javax.swing.JTextField iterationsTF;
     private javax.swing.JTextField ratioTF;
     private javax.swing.JComboBox refCB;
     private javax.swing.JButton rholoB;
     private javax.swing.JTextField wavelengthTF;
-    private javax.swing.JTextField xTF;
-    private javax.swing.JTextField yTF;
+    private javax.swing.JTextField toleranceTF;
+    private javax.swing.JTextField sigmaTF;
     // End of variables declaration                  
     
 }

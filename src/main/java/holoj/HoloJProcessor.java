@@ -20,6 +20,8 @@ public class HoloJProcessor {
     private int width = 0;
     private int height = 0;
     private int size = 0;
+    private double dx =0;
+    private double dy = 0;
     private Calibration cal;
     private String title = null;
     private boolean isRealOrigin = true;
@@ -31,6 +33,8 @@ public class HoloJProcessor {
         this.width = input.width;
         this.height = input.height;
         this.size = input.size;
+        this.dx = input.dx;
+        this.dy = input.dy;
         this.cal = input.cal;
         this.title = input.title;
         this.isRealOrigin = input.isRealOrigin;
@@ -61,6 +65,8 @@ public class HoloJProcessor {
             this.width = width;
             this.height = height;
             this.size = width * height;
+            this.dx = dx;
+            this.dy = dy;
             this.realPixels = new double[this.size];
             this.complexPixels = new double[this.size];
             double[] temp =  new double[width*height];
@@ -87,41 +93,49 @@ public class HoloJProcessor {
         }
     }
 
-    public HoloJProcessor(ImageProcessor var1) {
-        if (var1 == null) {
+    public HoloJProcessor(ImageProcessor ijProc, double dx, double dy) {
+        if (ijProc == null) {
             throw new ArrayStoreException("Constructor: ImageProcessor == null.");
         } else {
-            this.width = var1.getWidth();
-            this.height = var1.getHeight();
+            this.width = ijProc.getWidth();
+            this.height = ijProc.getHeight();
             this.size = this.width * this.height;
+            this.dx = dx;
+            this.dy = dy;
             this.realPixels = new double[this.size];
             this.complexPixels = new double[this.size];
             int var3;
-            if (var1.getPixels() instanceof byte[]) {
-                byte[] var2 = (byte[])((byte[])var1.getPixels());
+            if (ijProc.getPixels() instanceof byte[]) {
+                byte[] var2 = (byte[])((byte[])ijProc.getPixels());
 
                 for(var3 = 0; var3 < this.size; ++var3) {
-                    this.realPixels[var3] = (double)(var2[var3] & 255);
+                    //this.realPixels[var3] = (double)(var2[var3] & 255);
+                    this.realPixels[var3] = Math.pow(0.5*((double)(var2[var3] & 255)),0.5);
+                    this.complexPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
-            } else if (var1.getPixels() instanceof short[]) {
-                short[] var4 = (short[])((short[])var1.getPixels());
+            } else if (ijProc.getPixels() instanceof short[]) {
+                short[] var4 = (short[])((short[])ijProc.getPixels());
 
                 for(var3 = 0; var3 < this.size; ++var3) {
-                    this.realPixels[var3] = (double)(var4[var3] & '\uffff');
+                    //this.realPixels[var3] = (double)(var4[var3] & '\uffff');
+                    this.realPixels[var3] = Math.pow(0.5*((double)(var4[var3] & '\uffff')),0.5);
+                    this.complexPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
             } else {
-                if (!(var1.getPixels() instanceof float[])) {
+                if (!(ijProc.getPixels() instanceof float[])) {
                     throw new ArrayStoreException("Constructor: Unexpected image type.");
                 }
 
-                float[] var5 = (float[])((float[])var1.getPixels());
+                float[] var5 = (float[])((float[])ijProc.getPixels());
 
                 for(var3 = 0; var3 < this.size; ++var3) {
-                    this.realPixels[var3] = (double)var5[var3];
+                    //this.realPixels[var3] = (double)var5[var3];
+                    this.realPixels[var3] = Math.pow(0.5*((double)var5[var3]),0.5);
+                    this.complexPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
@@ -129,6 +143,56 @@ public class HoloJProcessor {
 
         }
     }
+
+    public HoloJProcessor(ImageProcessor ijProc) {
+        if (ijProc == null) {
+            throw new ArrayStoreException("Constructor: ImageProcessor == null.");
+        } else {
+            this.width = ijProc.getWidth();
+            this.height = ijProc.getHeight();
+            this.size = this.width * this.height;
+            this.realPixels = new double[this.size];
+            this.complexPixels = new double[this.size];
+            int var3;
+            if (ijProc.getPixels() instanceof byte[]) {
+                byte[] var2 = (byte[])((byte[])ijProc.getPixels());
+
+                for(var3 = 0; var3 < this.size; ++var3) {
+                    //this.realPixels[var3] = (double)(var2[var3] & 255);
+                    this.realPixels[var3] = Math.pow(0.5*((double)(var2[var3] & 255)),0.5);
+                    this.complexPixels[var3] = this.realPixels[var3];
+                }
+
+                this.setRealOrigin();
+            } else if (ijProc.getPixels() instanceof short[]) {
+                short[] var4 = (short[])((short[])ijProc.getPixels());
+
+                for(var3 = 0; var3 < this.size; ++var3) {
+                    //this.realPixels[var3] = (double)(var4[var3] & '\uffff');
+                    this.realPixels[var3] = Math.pow(0.5*((double)(var4[var3] & '\uffff')),0.5);
+                    this.complexPixels[var3] = this.realPixels[var3];
+                }
+
+                this.setRealOrigin();
+            } else {
+                if (!(ijProc.getPixels() instanceof float[])) {
+                    throw new ArrayStoreException("Constructor: Unexpected image type.");
+                }
+
+                float[] var5 = (float[])((float[])ijProc.getPixels());
+
+                for(var3 = 0; var3 < this.size; ++var3) {
+                    //this.realPixels[var3] = (double)var5[var3];
+                    this.realPixels[var3] = Math.pow(0.5*((double)var5[var3]),0.5);
+                    this.complexPixels[var3] = this.realPixels[var3];
+                }
+
+                this.setRealOrigin();
+            }
+
+        }
+    }
+
 
     public HoloJProcessor(ImageProcessor var1, ImageProcessor var2) {
         if (var1 != null && var2 != null) {
@@ -202,24 +266,41 @@ public class HoloJProcessor {
         }
     }
 
-    public HoloJProcessor(double[] var1, double[] var2, int var3, int var4) {
-        if (var1.length != var2.length) {
+    public HoloJProcessor(double[] realPixels, double[] complexPixels, int width, int height, double dx, double dy) {
+        if (realPixels.length != complexPixels.length) {
             throw new ArrayStoreException("Constructor: real and imaginary part differ in size.");
         } else {
-            this.realPixels = var1;
-            this.complexPixels = var2;
-            this.width = var3;
-            this.height = var4;
-            this.size = var3 * var4;
+            this.realPixels = realPixels;
+            this.complexPixels = complexPixels;
+            this.width = width;
+            this.height = height;
+            this.size = width * height;
+            this.dx = dx;
+            this.dy = dy;
             this.setComplexOrigin();
         }
     }
 
-    public HoloJProcessor(double[] var1, int var2, int var3) {
-        this.realPixels = var1;
-        this.width = var2;
-        this.height = var3;
-        this.size = var2 * var3;
+    public HoloJProcessor(double[] realPixels, double[] complexPixels, int width, int height) {
+        if (realPixels.length != complexPixels.length) {
+            throw new ArrayStoreException("Constructor: real and imaginary part differ in size.");
+        } else {
+            this.realPixels = realPixels;
+            this.complexPixels = complexPixels;
+            this.width = width;
+            this.height = height;
+            this.size = width * height;
+            this.setComplexOrigin();
+        }
+    }
+
+
+
+    public HoloJProcessor(double[] realPixels, int width, int height) {
+        this.realPixels = realPixels;
+        this.width = width;
+        this.height = height;
+        this.size = width * height;
         this.setRealOrigin();
     }
 
@@ -242,6 +323,10 @@ public class HoloJProcessor {
     public int getSize() {
         return this.size;
     }
+
+    public double getDx() {return this.dx; }
+
+    public double getDy() {return this.dy; }
 
     public int getWidth() {
         return this.width;
@@ -772,14 +857,14 @@ public class HoloJProcessor {
         }
     }
 
-    public HoloJProcessor getSideband(Point var1, int var2, int var3, boolean var4) {
+    public HoloJProcessor getSideband(HoloJProcessor holo, Point sideCenter, int radius, int scaleFactor, boolean useButterworth) {
         if (!this.isSpectrumDomain) {
             throw new ArrayStoreException("getSideband: image is not in Fourier domain.");
         } else {
-            int var5 = this.width / var3;
-            int var6 = this.height / var3;
-            int var7 = Math.min(this.width - var1.x, var1.x);
-            int var8 = Math.min(this.height - var1.y, var1.y);
+            int var5 = this.width / scaleFactor;
+            int var6 = this.height / scaleFactor;
+            int var7 = Math.min(this.width - sideCenter.x, sideCenter.x);
+            int var8 = Math.min(this.height - sideCenter.y, sideCenter.y);
             int var9 = Math.min(var7, var8);
             int var10 = var9 << 1;
             if (var10 > var6) {
@@ -789,13 +874,13 @@ public class HoloJProcessor {
             }
 
             var9 = var10 >> 1;
-            int var11 = var1.x - var9 + (var1.y - var9) * this.width;
+            int var11 = sideCenter.x - var9 + (sideCenter.y - var9) * this.width;
             int var12 = var10 * var10;
             double[] var13 = new double[var10 * var10];
-            if (var4) {
-                var13 = HoloJUtils.butterworthMask(var10, var10, var2, 0.414D);
+            if (useButterworth) {
+                var13 = HoloJUtils.butterworthMask(var10, var10, radius, 0.414D);
             } else {
-                var13 = HoloJUtils.circularMask(var10, var10, var2);
+                var13 = HoloJUtils.circularMask(var10, var10, radius);
             }
 
             double[] var14 = new double[var12];
@@ -810,8 +895,16 @@ public class HoloJProcessor {
                 }
             }
 
-            HoloJProcessor var20 = new HoloJProcessor(var14, var15, var10, var10);
+            HoloJProcessor var20 = new HoloJProcessor(var14, var15, var10, var10, holo.getDx(), holo.getDy());
             return var20;
         }
+    }
+
+    public double[] getIntensity(){
+        double[] intensity = new double[this.getSize()];
+        for(int i=0;i<this.getSize();i++){
+            intensity[i]=Math.pow(this.realPixels[i],2) + Math.pow(this.complexPixels[i],2);
+        }
+        return intensity;
     }
 }

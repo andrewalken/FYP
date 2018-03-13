@@ -1,6 +1,7 @@
 package holoj;
 
 import ij.*;
+import ij.plugin.filter.MaximumFinder;
 import ij.process.*;
 import java.awt.*;
 import ij.gui.Roi;
@@ -518,7 +519,7 @@ public final class HoloJUtils {
                     resultReal[i] = realPixels1[i]*realPixels2[i]-complexPixels1[i]*complexPixels2[i];
                     resultComplex[i] = realPixels1[i]*complexPixels2[i]+realPixels2[i]*complexPixels1[i];	
             }
-            HoloJProcessor result = new HoloJProcessor(resultReal, resultComplex, operand1.getWidth(), operand1.getHeight());
+            HoloJProcessor result = new HoloJProcessor(resultReal, resultComplex, operand1.getWidth(), operand1.getHeight(),operand1.getDx(),operand1.getDy());
             return result;
     }
    	
@@ -562,9 +563,60 @@ public final class HoloJUtils {
     //TODO: Drop this algo. use numerical propagation instead.
     public static HoloJProcessor reconstruct(int radius, int scaleFactor, Point sideCenter, HoloJProcessor hologram, boolean useButterworth) {
             hologram.doFFT();
-            HoloJProcessor holoRec = hologram.getSideband(sideCenter,radius,scaleFactor,useButterworth);
+            HoloJProcessor holoRec = hologram.getSideband(hologram, sideCenter,radius,scaleFactor,useButterworth);
             holoRec.doInverseFFT();
             return holoRec;
+    }
+
+    public static HoloJProcessor reconstruct(HoloJProcessor hologram, double distance, double wavelength, int iterations, double tolerance, double threshold){
+        HoloJProcessor recon = new HoloJProcessor(hologram);
+        for(int i=0;i<iterations;i++){
+            recon = propogatefunc(recon,distance,wavelength);
+            MaximumFinder m = new MaximumFinder();
+            ImagePlus amplitude = recon.makeAmplitudeImage("Amplitude");
+            ImageProcessor amplitudeProcessor = amplitude.getProcessor();
+            amplitudeProcessor.invert();
+            Image pointsImage = m.findMaxima(amplitudeProcessor,tolerance,0,false).createImage();
+            ImagePlus x = new ImagePlus("points", pointsImage);
+            ImageProcessor Mask = x.getProcessor();
+
+            //Mask.blurGaussian(2);
+            HoloJProcessor holoMask = new HoloJProcessor(Mask);
+            for(int j=0;j<holoMask.realPixels.length;j++){
+                if(holoMask.realPixels[j]>0)
+                    holoMask.realPixels[j]=1;
+                if(holoMask.complexPixels[j]>0)
+                    holoMask.complexPixels[j]=1;
+            }
+
+            holoMask.show("guassian");
+
+            //_ binary threshold<- hopefully give back double array
+
+            // need method to take holoJprocessor and double[] and ,multiply real and complex <- done
+        }
+
+        return recon;
+    }
+
+    //for Previewing image
+    public static void previewPoints(HoloJProcessor hologram, double distance, double wavelength, int iterations, double tolerance,double threshold){
+        HoloJProcessor recon = new HoloJProcessor(hologram);
+        MaximumFinder m = new MaximumFinder();
+        ImagePlus amplitude = recon.makeAmplitudeImage("Amplitude");
+        ImageProcessor amplitudeProcessor = amplitude.getProcessor();
+        amplitudeProcessor.invert();
+        ByteProcessor points = m.findMaxima(amplitudeProcessor,tolerance,0,false);
+
+        Image pointsImage = points.createImage();
+        ImagePlus x = new ImagePlus("points", pointsImage);
+        ImageProcessor Mask = x.getProcessor();
+        HoloJProcessor holoMask = new HoloJProcessor(Mask);
+        
+
+        holoMask.show("guassian");
+
+
     }
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -572,16 +624,15 @@ public final class HoloJUtils {
      * calls doFFT on the passed in holoJprocessor, then does the getChirp(line 274 on HJPro class) on the origional HoloJprocessor passing results into  HoloJprocessor propogated, then
 	 * does the inverseFFT, this then finally returns the HoloJprocessor called propogated.
      * @param hologram, this is the image
-     * @param dx and dy are set varibles
      * @param distance needs to be a changable value
      * @param wavelength is a set value too
      * @return propogated HOLOJ Processor
      */
-	public static HoloJProcessor propogatefunc(HoloJProcessor hologram, int width, int height, double dx, double dy, double distance, double wavelength) {
+	public static HoloJProcessor propogatefunc(HoloJProcessor hologram, double distance, double wavelength) {
             HoloJProcessor propagated = new HoloJProcessor(hologram);
 			propagated.doFFT();
-			HoloJProcessor chirp = new HoloJProcessor(width, height, dx, dy, distance, wavelength);//THIS returns a HOLOJPROCESSOR with math Done
-            propagated = multiply(chirp, propagated);
+			HoloJProcessor chirp = new HoloJProcessor(propagated.getWidth(), propagated.getHeight(), propagated.getDx(), propagated.getDy(), distance, wavelength);//THIS returns a HOLOJPROCESSOR with math Done
+            propagated = multiply(chirp, propagated);  //TODO: chirp returns NaN pixels
 			propagated.doInverseFFT();
             return propagated;//the propagated HoloJprocessor
     }
@@ -620,8 +671,8 @@ public final class HoloJUtils {
         hologram.doFFT();
         reference.doFFT();
 
-        HoloJProcessor holoRec = hologram.getSideband(sideCenter,radius,scaleFactor,useButterworth);
-        HoloJProcessor refRec = reference.getSideband(sideCenter,radius,scaleFactor,useButterworth);
+        HoloJProcessor holoRec = hologram.getSideband(hologram,sideCenter,radius,scaleFactor,useButterworth);
+        HoloJProcessor refRec = reference.getSideband(reference,sideCenter,radius,scaleFactor,useButterworth);
 
         holoRec.doInverseFFT();
         refRec.doInverseFFT();
@@ -898,14 +949,6 @@ public final class HoloJUtils {
         return new HoloJProcessor(realPixels, complexPixels, processor.getWidth(), processor.getHeight());
     }
 
-    public double[] intensity(HoloJProcessor hologram){
-        double[] intensity = new double[hologram.getSize()];
-        for(int i=0;i<hologram.getSize();i++){
-            intensity[i]=Math.pow(hologram.realPixels[i],2) + Math.pow(hologram.complexPixels[i],2);
-        }
-        return intensity;
-    }
-
     public double average(double[] intensity, int size){
         double average =0;
         for (int i=0;i<size;i++){
@@ -921,5 +964,13 @@ public final class HoloJUtils {
             variance+=Math.pow((intensity[i]-average),2);
         }
         return variance/size;
+    }
+
+    public HoloJProcessor multiply(HoloJProcessor holo, double[] array){
+        for (int i=0; i<holo.getSize();i++){
+            holo.realPixels[i]=holo.realPixels[i] * array[i];
+            holo.complexPixels[i]=holo.complexPixels[i] * array[i];
+        }
+        return holo;
     }
 } 

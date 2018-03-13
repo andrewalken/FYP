@@ -1,17 +1,17 @@
 close all;
-dx = 1.67e-6;
-dy = 1.67e-6;
-z2= 1e-3;
-wavelength = 570e-9;
-%INTENSITY = imread('Petri_dish_simulation_lensfree_hologram.tif');
+dx = 3.45e-6;
+dy = 3.45e-6;
+z2= -8.99e-3;
+wavelength = 633e-9;
+INTENSITY = imread('test.tif');
 if true   
-   row=3664;  col=2748;
+   row=1024;  col=1024;
 %fin=fopen('Bare Sensor.raw','r');
-fin=fopen('Image_11.raw','r');
+%fin=fopen('Image_11.raw','r');
 %fin=fopen('Pic two.raw','r');
-I=fread(fin,row*col,'uint8=>uint8'); 
-INTENSITY=reshape(I,row,col);
-INTENSITY=INTENSITY';
+%I=fread(fin,row*col,'uint8=>uint8'); 
+%INTENSITY=reshape(I,row,col);
+%INTENSITY=INTENSITY';
 figure;imagesc(INTENSITY);colormap gray; axis equal;
 end
 % 
@@ -24,19 +24,19 @@ end
 % figure;imagesc(INTENSITY3);colormap gray; axis equal;
 % figure;imagesc(INTENSITY4);colormap gray; axis equal;
 
- N=10;
- for i=1:1:N
-     recon = angular_spectrum_method(sqrt(double(INTENSITY)), -z2, dx, dy, wavelength);
-     figure;imagesc(abs(recon).^2);colormap gray; axis equal;
-     z2 = z2 + 0.1e-3;
- end
+%  N=10;
+%  for i=1:1:N
+%      recon = angular_spectrum_method(sqrt(double(INTENSITY)), -z2, dx, dy, wavelength);
+%      figure;imagesc(abs(recon).^2);colormap gray; axis equal;
+%      z2 = z2 + 0.1e-3;
+%  end
 
 
  
 %CREATE MASK FOR TWIN IMAGE IN RECONSTRUCTION PLANE
-temp = angular_spectrum_method(double(INTENSITY), z2, dx, dy, wavelength);
+temp = angular_spectrum_method(sqrt(double(INTENSITY)), z2, dx, dy, wavelength);
 MASK = (abs(temp).^1)<25*min(min((abs(temp).^1)));%CREATE MASK
-figure; imagesc(MASK);colormap gray; axis equal;
+%figure; imagesc(MASK);colormap gray; axis equal;
 n=10; h = 1/(n^2)*ones(n,n);MASK = filter2(h,MASK); MASK = MASK>0.1*max(max(MASK));%CREATE MASK
 figure; imagesc(MASK);colormap gray; axis equal;
 
