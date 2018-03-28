@@ -16,7 +16,7 @@ import java.awt.Point;
 public class HoloJProcessor {
     private static final int EXCLUDED_RADIUS = 20;
     double[] realPixels = null;
-    double[] complexPixels = null;
+    double[] imagPixels = null;
     private int width = 0;
     private int height = 0;
     private int size = 0;
@@ -29,7 +29,7 @@ public class HoloJProcessor {
 
     public HoloJProcessor(HoloJProcessor input){
         this.realPixels = input.realPixels;
-        this.complexPixels = input.complexPixels;
+        this.imagPixels = input.imagPixels;
         this.width = input.width;
         this.height = input.height;
         this.size = input.size;
@@ -51,7 +51,7 @@ public class HoloJProcessor {
             this.height = var2;
             this.size = var1 * var2;
             this.realPixels = new double[this.size];
-            this.complexPixels = new double[this.size];
+            this.imagPixels = new double[this.size];
             this.setComplexOrigin();
         }
     }
@@ -68,7 +68,7 @@ public class HoloJProcessor {
             this.dx = dx;
             this.dy = dy;
             this.realPixels = new double[this.size];
-            this.complexPixels = new double[this.size];
+            this.imagPixels = new double[this.size];
             double[] temp =  new double[width*height];
             int x,y,position;
             for (int m=0;m<height;m++){
@@ -85,7 +85,7 @@ public class HoloJProcessor {
                     position = m * width + n;
                     if(temp[position]>=0) {
                         this.realPixels[position] = Math.cos(((2 * Math.PI * distance)/wavelength)*temp[position]);
-                        this.complexPixels[position] = Math.sin(((2 * Math.PI * distance)/wavelength)*temp[position]);
+                        this.imagPixels[position] = Math.sin(((2 * Math.PI * distance)/wavelength)*temp[position]);
                     }
                 }
             }
@@ -103,7 +103,7 @@ public class HoloJProcessor {
             this.dx = dx;
             this.dy = dy;
             this.realPixels = new double[this.size];
-            this.complexPixels = new double[this.size];
+            this.imagPixels = new double[this.size];
             int var3;
             if (ijProc.getPixels() instanceof byte[]) {
                 byte[] var2 = (byte[])((byte[])ijProc.getPixels());
@@ -111,7 +111,7 @@ public class HoloJProcessor {
                 for(var3 = 0; var3 < this.size; ++var3) {
                     //this.realPixels[var3] = (double)(var2[var3] & 255);
                     this.realPixels[var3] = Math.pow(0.5*((double)(var2[var3] & 255)),0.5);
-                    this.complexPixels[var3] = this.realPixels[var3];
+                    this.imagPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
@@ -121,7 +121,7 @@ public class HoloJProcessor {
                 for(var3 = 0; var3 < this.size; ++var3) {
                     //this.realPixels[var3] = (double)(var4[var3] & '\uffff');
                     this.realPixels[var3] = Math.pow(0.5*((double)(var4[var3] & '\uffff')),0.5);
-                    this.complexPixels[var3] = this.realPixels[var3];
+                    this.imagPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
@@ -135,7 +135,7 @@ public class HoloJProcessor {
                 for(var3 = 0; var3 < this.size; ++var3) {
                     //this.realPixels[var3] = (double)var5[var3];
                     this.realPixels[var3] = Math.pow(0.5*((double)var5[var3]),0.5);
-                    this.complexPixels[var3] = this.realPixels[var3];
+                    this.imagPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
@@ -152,15 +152,15 @@ public class HoloJProcessor {
             this.height = ijProc.getHeight();
             this.size = this.width * this.height;
             this.realPixels = new double[this.size];
-            this.complexPixels = new double[this.size];
+            this.imagPixels = new double[this.size];
             int var3;
             if (ijProc.getPixels() instanceof byte[]) {
-                byte[] var2 = (byte[])((byte[])ijProc.getPixels());
+                byte[] byteArray = (byte[])((byte[])ijProc.getPixels());
 
                 for(var3 = 0; var3 < this.size; ++var3) {
-                    //this.realPixels[var3] = (double)(var2[var3] & 255);
-                    this.realPixels[var3] = Math.pow(0.5*((double)(var2[var3] & 255)),0.5);
-                    this.complexPixels[var3] = this.realPixels[var3];
+                    //this.realPixels[var3] = (double)(byteArray[var3] & 255);
+                    this.realPixels[var3] = Math.pow(0.5*((double)(byteArray[var3] & 255)),0.5);
+                    this.imagPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
@@ -170,7 +170,7 @@ public class HoloJProcessor {
                 for(var3 = 0; var3 < this.size; ++var3) {
                     //this.realPixels[var3] = (double)(var4[var3] & '\uffff');
                     this.realPixels[var3] = Math.pow(0.5*((double)(var4[var3] & '\uffff')),0.5);
-                    this.complexPixels[var3] = this.realPixels[var3];
+                    this.imagPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
@@ -184,7 +184,7 @@ public class HoloJProcessor {
                 for(var3 = 0; var3 < this.size; ++var3) {
                     //this.realPixels[var3] = (double)var5[var3];
                     this.realPixels[var3] = Math.pow(0.5*((double)var5[var3]),0.5);
-                    this.complexPixels[var3] = this.realPixels[var3];
+                    this.imagPixels[var3] = this.realPixels[var3];
                 }
 
                 this.setRealOrigin();
@@ -204,7 +204,7 @@ public class HoloJProcessor {
             int var5 = this.width * this.height;
             if (var3 == this.width && var4 == this.height && var5 == this.size) {
                 this.realPixels = new double[this.size];
-                this.complexPixels = new double[this.size];
+                this.imagPixels = new double[this.size];
                 this.setComplexOrigin();
                 byte[] var6;
                 int var7;
@@ -238,13 +238,13 @@ public class HoloJProcessor {
                     var6 = (byte[])((byte[])var2.getPixels());
 
                     for(var7 = 0; var7 < this.size; ++var7) {
-                        this.complexPixels[var7] = (double)(var6[var7] & 255);
+                        this.imagPixels[var7] = (double)(var6[var7] & 255);
                     }
                 } else if (var2.getPixels() instanceof short[]) {
                     var8 = (short[])((short[])var2.getPixels());
 
                     for(var7 = 0; var7 < this.size; ++var7) {
-                        this.complexPixels[var7] = (double)(var8[var7] & '\uffff');
+                        this.imagPixels[var7] = (double)(var8[var7] & '\uffff');
                     }
                 } else {
                     if (!(var2.getPixels() instanceof float[])) {
@@ -254,7 +254,7 @@ public class HoloJProcessor {
                     var9 = (float[])((float[])var2.getPixels());
 
                     for(var7 = 0; var7 < this.size; ++var7) {
-                        this.complexPixels[var7] = (double)var9[var7];
+                        this.imagPixels[var7] = (double)var9[var7];
                     }
                 }
 
@@ -266,12 +266,12 @@ public class HoloJProcessor {
         }
     }
 
-    public HoloJProcessor(double[] realPixels, double[] complexPixels, int width, int height, double dx, double dy) {
-        if (realPixels.length != complexPixels.length) {
+    public HoloJProcessor(double[] realPixels, double[] imagPixels, int width, int height, double dx, double dy) {
+        if (realPixels.length != imagPixels.length) {
             throw new ArrayStoreException("Constructor: real and imaginary part differ in size.");
         } else {
             this.realPixels = realPixels;
-            this.complexPixels = complexPixels;
+            this.imagPixels = imagPixels;
             this.width = width;
             this.height = height;
             this.size = width * height;
@@ -281,12 +281,12 @@ public class HoloJProcessor {
         }
     }
 
-    public HoloJProcessor(double[] realPixels, double[] complexPixels, int width, int height) {
-        if (realPixels.length != complexPixels.length) {
+    public HoloJProcessor(double[] realPixels, double[] imagPixels, int width, int height) {
+        if (realPixels.length != imagPixels.length) {
             throw new ArrayStoreException("Constructor: real and imaginary part differ in size.");
         } else {
             this.realPixels = realPixels;
-            this.complexPixels = complexPixels;
+            this.imagPixels = imagPixels;
             this.width = width;
             this.height = height;
             this.size = width * height;
@@ -309,7 +309,7 @@ public class HoloJProcessor {
     }
 
     public double[] getComplexPixelsArray() {
-        return this.complexPixels;
+        return this.imagPixels;
     }
 
     public void setRealPixelsArray(double[] var1) {
@@ -317,7 +317,7 @@ public class HoloJProcessor {
     }
 
     public void setComplexPixelsArray(double[] var1) {
-        this.complexPixels = var1;
+        this.imagPixels = var1;
     }
 
     public int getSize() {
@@ -349,7 +349,7 @@ public class HoloJProcessor {
 
             for(int var4 = 0; var4 < this.size; ++var4) {
                 this.realPixels[var4] += var2[var4];
-                this.complexPixels[var4] += var3[var4];
+                this.imagPixels[var4] += var3[var4];
             }
 
             this.setComplexOrigin();
@@ -365,7 +365,7 @@ public class HoloJProcessor {
 
             for(int var4 = 0; var4 < this.size; ++var4) {
                 this.realPixels[var4] -= var2[var4];
-                this.complexPixels[var4] -= var3[var4];
+                this.imagPixels[var4] -= var3[var4];
             }
 
             this.setComplexOrigin();
@@ -380,10 +380,10 @@ public class HoloJProcessor {
             double[] var3 = var1.getComplexPixelsArray();
 
             for(int var4 = 0; var4 < this.size; ++var4) {
-                double var5 = this.realPixels[var4] * var2[var4] - this.complexPixels[var4] * var3[var4];
-                double var7 = this.realPixels[var4] * var3[var4] + var2[var4] * this.complexPixels[var4];
+                double var5 = this.realPixels[var4] * var2[var4] - this.imagPixels[var4] * var3[var4];
+                double var7 = this.realPixels[var4] * var3[var4] + var2[var4] * this.imagPixels[var4];
                 this.realPixels[var4] = var5;
-                this.complexPixels[var4] = var7;
+                this.imagPixels[var4] = var7;
             }
 
             this.setComplexOrigin();
@@ -401,7 +401,7 @@ public class HoloJProcessor {
 
             for(int var6 = 0; var6 < this.size; ++var6) {
                 this.realPixels[var6] *= (double)var5[var6];
-                this.complexPixels[var6] *= (double)var5[var6];
+                this.imagPixels[var6] *= (double)var5[var6];
             }
 
             this.setComplexOrigin();
@@ -453,7 +453,7 @@ public class HoloJProcessor {
 
             for(int var6 = 0; var6 < this.size; ++var6) {
                 this.realPixels[var6] /= (double)var5[var6];
-                this.complexPixels[var6] /= (double)var5[var6];
+                this.imagPixels[var6] /= (double)var5[var6];
             }
 
             this.setComplexOrigin();
@@ -467,7 +467,7 @@ public class HoloJProcessor {
         } else {
             for(int var3 = 0; var3 < this.size; ++var3) {
                 this.realPixels[var3] *= var1[var3];
-                this.complexPixels[var3] *= var1[var3];
+                this.imagPixels[var3] *= var1[var3];
             }
 
             this.setComplexOrigin();
@@ -481,7 +481,7 @@ public class HoloJProcessor {
         } else {
             for(int var3 = 0; var3 < this.size; ++var3) {
                 this.realPixels[var3] /= var1[var3];
-                this.complexPixels[var3] /= var1[var3];
+                this.imagPixels[var3] /= var1[var3];
             }
 
             this.setComplexOrigin();
@@ -522,10 +522,10 @@ public class HoloJProcessor {
             double[] var3 = var1.getComplexPixelsArray();
 
             for(int var4 = 0; var4 < this.size; ++var4) {
-                double var5 = (this.realPixels[var4] * var2[var4] - this.complexPixels[var4] * var3[var4]) / (var2[var4] * var2[var4] + var3[var4] * var3[var4]);
-                double var7 = (this.realPixels[var4] * var3[var4] + var2[var4] * this.complexPixels[var4]) / (var2[var4] * var2[var4] + var3[var4] * var3[var4]);
+                double var5 = (this.realPixels[var4] * var2[var4] - this.imagPixels[var4] * var3[var4]) / (var2[var4] * var2[var4] + var3[var4] * var3[var4]);
+                double var7 = (this.realPixels[var4] * var3[var4] + var2[var4] * this.imagPixels[var4]) / (var2[var4] * var2[var4] + var3[var4] * var3[var4]);
                 this.realPixels[var4] = var5;
-                this.complexPixels[var4] = var7;
+                this.imagPixels[var4] = var7;
             }
 
             this.setComplexOrigin();
@@ -538,7 +538,7 @@ public class HoloJProcessor {
 
         for(int var7 = 0; var7 < this.size; ++var7) {
             this.realPixels[var7] += var3;
-            this.complexPixels[var7] += var5;
+            this.imagPixels[var7] += var5;
         }
 
     }
@@ -549,7 +549,7 @@ public class HoloJProcessor {
         } else {
             for(int var2 = 0; var2 < this.size; ++var2) {
                 this.realPixels[var2] += Math.cos(var1[var2]);
-                this.complexPixels[var2] += Math.sin(var1[var2]);
+                this.imagPixels[var2] += Math.sin(var1[var2]);
             }
 
         }
@@ -614,7 +614,7 @@ public class HoloJProcessor {
                 int var9 = var7 + var8;
                 int var10 = (this.height - var6) % this.height * this.width + (this.width - var8) % this.width;
                 this.realPixels[var6 * this.width + var8] = var3 * 0.5D * (double)(var5[var9] + var5[var10]);
-                this.complexPixels[var6 * this.width + var8] = var3 * 0.5D * (double)(var5[var9] - var5[var10]);
+                this.imagPixels[var6 * this.width + var8] = var3 * 0.5D * (double)(var5[var9] - var5[var10]);
             }
         }
 
@@ -624,7 +624,7 @@ public class HoloJProcessor {
         double[] var1 = new double[this.size];
 
         for(int var2 = 0; var2 < this.size; ++var2) {
-            var1[var2] = this.realPixels[var2] + this.complexPixels[var2];
+            var1[var2] = this.realPixels[var2] + this.imagPixels[var2];
         }
 
         FloatProcessor var8 = new FloatProcessor(this.width, this.height, var1);
@@ -636,17 +636,17 @@ public class HoloJProcessor {
 
         for(int var7 = 0; var7 < this.size; ++var7) {
             this.realPixels[var7] = var4 * (double)var6[var7];
-            this.complexPixels[var7] = 0.0D;
+            this.imagPixels[var7] = 0.0D;
         }
 
     }
 
     private void doComplexToComplexFFT(int var1) {
-        double[] var2 = HoloJUtils.arrangeToComplexArray(this.realPixels, this.complexPixels);
+        double[] var2 = HoloJUtils.arrangeToComplexArray(this.realPixels, this.imagPixels);
         int[] var3 = new int[]{this.width, this.height};
         HoloJUtils.c2cfft(var2, var3, var1);
         this.realPixels = HoloJUtils.extractRealPixels(var2);
-        this.complexPixels = HoloJUtils.extractComplexPixels(var2);
+        this.imagPixels = HoloJUtils.extractComplexPixels(var2);
     }
 
     public void show(String var1) {
@@ -726,7 +726,7 @@ public class HoloJProcessor {
         float[] var2 = new float[this.size];
 
         for(int var3 = 0; var3 < this.size; ++var3) {
-            var2[var3] = (float)(0.5D * Math.log(Math.sqrt(this.realPixels[var3] * this.realPixels[var3] + this.complexPixels[var3] * this.complexPixels[var3])));
+            var2[var3] = (float)(0.5D * Math.log(Math.sqrt(this.realPixels[var3] * this.realPixels[var3] + this.imagPixels[var3] * this.imagPixels[var3])));
         }
 
         var1.setPixels(var2);
@@ -738,7 +738,7 @@ public class HoloJProcessor {
         float[] var2 = new float[this.size];
 
         for(int var3 = 0; var3 < this.size; ++var3) {
-            var2[var3] = (float)Math.log(Math.sqrt(this.realPixels[var3] * this.realPixels[var3] + this.complexPixels[var3] * this.complexPixels[var3]));
+            var2[var3] = (float)Math.log(Math.sqrt(this.realPixels[var3] * this.realPixels[var3] + this.imagPixels[var3] * this.imagPixels[var3]));
         }
 
         var1.setPixels(var2);
@@ -750,7 +750,7 @@ public class HoloJProcessor {
         float[] var2 = new float[this.size];
 
         for(int var3 = 0; var3 < this.size; ++var3) {
-            var2[var3] = (float)HoloJUtils.modulus(this.realPixels[var3], this.complexPixels[var3]);
+            var2[var3] = (float)HoloJUtils.modulus(this.realPixels[var3], this.imagPixels[var3]);
         }
 
         var1.setPixels(var2);
@@ -774,7 +774,7 @@ public class HoloJProcessor {
         float[] var2 = new float[this.size];
 
         for(int var3 = 0; var3 < this.size; ++var3) {
-            var2[var3] = (float)(Math.atan2(this.realPixels[var3], this.complexPixels[var3]) + 3.141592653589793D);
+            var2[var3] = (float)(Math.atan2(this.realPixels[var3], this.imagPixels[var3]) + 3.141592653589793D);
         }
 
         var1.setPixels(var2);
@@ -789,7 +789,7 @@ public class HoloJProcessor {
 
         for(int var6 = 0; var6 < this.height; ++var6) {
             for(int var7 = 0; var7 < this.width; ++var7) {
-                var4 = HoloJUtils.modulus(this.realPixels[var6 * this.width + var7], this.complexPixels[var6 * this.width + var7]);
+                var4 = HoloJUtils.modulus(this.realPixels[var6 * this.width + var7], this.imagPixels[var6 * this.width + var7]);
                 if (var1 < var4) {
                     var1 = var4;
                     var3.setLocation(var7, var6);
@@ -808,7 +808,7 @@ public class HoloJProcessor {
         for(int var7 = 0; var7 < this.height; ++var7) {
             for(int var8 = 0; var8 < this.width; ++var8) {
                 if (var7 >= var1.getBounds().y && var7 <= var1.getBounds().y + var1.getBounds().height && var8 >= var1.getBounds().x && var8 <= var1.getBounds().x + var1.getBounds().width) {
-                    var5 = HoloJUtils.modulus(this.realPixels[var7 * this.width + var8], this.complexPixels[var7 * this.width + var8]);
+                    var5 = HoloJUtils.modulus(this.realPixels[var7 * this.width + var8], this.imagPixels[var7 * this.width + var8]);
                     if (var2 < var5) {
                         var2 = var5;
                         var4.setLocation(var8, var7);
@@ -834,7 +834,7 @@ public class HoloJProcessor {
             if (var1 >= 0) {
                 for(var9 = 0; var9 < this.height >> 1; ++var9) {
                     for(var10 = 0; var10 < this.width; ++var10) {
-                        var7 = HoloJUtils.modulus(this.realPixels[var9 * this.width + var10], this.complexPixels[var9 * this.width + var10]);
+                        var7 = HoloJUtils.modulus(this.realPixels[var9 * this.width + var10], this.imagPixels[var9 * this.width + var10]);
                         if ((var9 - var5) * (var9 - var5) + (var10 - var6) * (var10 - var6) > 400 && var2 < var7) {
                             var2 = var7;
                             var4.setLocation(var10, var9);
@@ -844,7 +844,7 @@ public class HoloJProcessor {
             } else {
                 for(var9 = this.height >> 1; var9 < this.height; ++var9) {
                     for(var10 = 0; var10 < this.width; ++var10) {
-                        var7 = HoloJUtils.modulus(this.realPixels[var9 * this.width + var10], this.complexPixels[var9 * this.width + var10]);
+                        var7 = HoloJUtils.modulus(this.realPixels[var9 * this.width + var10], this.imagPixels[var9 * this.width + var10]);
                         if ((var9 - var5) * (var9 - var5) + (var10 - var6) * (var10 - var6) > 400 && var2 < var7) {
                             var2 = var7;
                             var4.setLocation(var10, var9);
@@ -891,7 +891,7 @@ public class HoloJProcessor {
                     int var18 = var17 + var16 * var10;
                     int var19 = var11 + var16 * this.width + var17;
                     var14[var18] = var13[var18] * this.realPixels[var19];
-                    var15[var18] = var13[var18] * this.complexPixels[var19];
+                    var15[var18] = var13[var18] * this.imagPixels[var19];
                 }
             }
 
@@ -903,7 +903,7 @@ public class HoloJProcessor {
     public double[] getIntensity(){
         double[] intensity = new double[this.getSize()];
         for(int i=0;i<this.getSize();i++){
-            intensity[i]=Math.pow(this.realPixels[i],2) + Math.pow(this.complexPixels[i],2);
+            intensity[i]=Math.pow(this.realPixels[i],2) + Math.pow(this.imagPixels[i],2);
         }
         return intensity;
     }

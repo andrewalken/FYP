@@ -48,8 +48,8 @@ public class HoloJFrame extends javax.swing.JFrame {
 	//private double distance = 0.00899;
 	//private double wavelength = 0.000000633;
 	private HoloJProcessor holo,ref,rec;
-	private double Tolerance,Sigma;
-	private int Iterations;
+	private double Tolerance;
+	private int Iterations,Sigma;
 
 
 
@@ -67,7 +67,7 @@ public class HoloJFrame extends javax.swing.JFrame {
         Tolerance=getDouble(toleranceTF);
         wavelength=getDouble(wavelengthTF);
         distance=getDouble(distanceTF);
-        Sigma=getDouble(sigmaTF);
+        Sigma=getInteger(sigmaTF);
         Iterations=getInteger(iterationsTF);
          
         if (holo == null) 
@@ -76,15 +76,15 @@ public class HoloJFrame extends javax.swing.JFrame {
 		{
 
 			//rec = HoloJUtils.reconstruct(holo.getWidth(),1,sideCenter,holo,butterworth);
-            rec = HoloJUtils.reconstruct(holo,distance,wavelength,Iterations,Tolerance,Sigma);
-            if (ref != null) 
-			{
-			    Point p = new Point();
-			    p.x = holo.getWidth()/2;
-                p.y = holo.getHeight()/2;
-				rec = HoloJUtils.reconstruct(radius,ratio,p,ref,holo,butterworth);
-            }
-			//rec.setCalibration(imageCal);
+            rec = HoloJUtils.reconstruct(holo,ref,distance,wavelength,Iterations,Tolerance,Sigma);
+//            if (ref != null)
+//			{
+//			    Point p = new Point();
+//			    p.x = holo.getWidth()/2;
+//                p.y = holo.getHeight()/2;
+//				rec = HoloJUtils.reconstruct(radius,ratio,p,ref,holo,butterworth);
+//            }
+//			rec.setCalibration(imageCal);
             rec.setTitle(""+title);
 			rec.showHolo("Hologram : "+rec.getTitle()+" :");
 		}
@@ -120,7 +120,7 @@ public class HoloJFrame extends javax.swing.JFrame {
         Tolerance=getDouble(toleranceTF);
         wavelength=getDouble(wavelengthTF);
         distance=getDouble(distanceTF);
-        Sigma=getDouble(sigmaTF);
+        Sigma=getInteger(sigmaTF);
         Iterations=getInteger(iterationsTF);
         HoloJUtils.previewPoints(holo,distance,wavelength,Iterations,Tolerance,Sigma);
 
@@ -279,8 +279,8 @@ public class HoloJFrame extends javax.swing.JFrame {
         jLabel6 = new JLabel();
         iterationsTF = new JTextField();
         jButton4 = new javax.swing.JButton();
-        jLabel8 = new JLabel();
-        ratioTF = new JTextField();
+        //jLabel8 = new JLabel();
+        //ratioTF = new JTextField();
         jPanel3 = new JPanel();
         jButton5 = new JButton();
         amplitudeCB = new JCheckBox();
@@ -447,27 +447,27 @@ public class HoloJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Preview");
+        jButton4.setText("Preview Points");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jLabel8.setText("TBC");
+        //jLabel8.setText("TBC");
 
-        ratioTF.setHorizontalAlignment(JTextField.TRAILING);
-        ratioTF.setText("4");
-        ratioTF.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                ratioTFActionPerformed(evt);
-            }
-        });
-        ratioTF.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent evt) {
-                ratioTFFocusLost(evt);
-            }
-        });
+//        ratioTF.setHorizontalAlignment(JTextField.TRAILING);
+//        ratioTF.setText("4");
+//        ratioTF.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent evt) {
+//                ratioTFActionPerformed(evt);
+//            }
+//        });
+//        ratioTF.addFocusListener(new FocusAdapter() {
+//            public void focusLost(FocusEvent evt) {
+//                ratioTFFocusLost(evt);
+//            }
+//        });
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -479,9 +479,10 @@ public class HoloJFrame extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(toleranceTF, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(jLabel8)
+                //.addComponent(jLabel8)
                 .addGap(18, 18, 18)
-                .addComponent(ratioTF, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+                //.addComponent(ratioTF, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+                    )
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(jLabel5)
@@ -501,8 +502,9 @@ public class HoloJFrame extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(toleranceTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(ratioTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    //.addComponent(jLabel8)
+                    //.addComponent(ratioTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        )
                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(sigmaTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -567,7 +569,7 @@ public class HoloJFrame extends javax.swing.JFrame {
             }
         });
 /////////////////////////////////////////////////////////////////////////////////////////
-        dxTF.setText("0.00000345");
+        dxTF.setText("0.00000160");
         dxTF.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent evt) {
                 dxTFFocusLost(evt);
@@ -579,7 +581,7 @@ public class HoloJFrame extends javax.swing.JFrame {
             }
         });
 
-        dyTF.setText("0.00000345");
+        dyTF.setText("0.00000160");
         dyTF.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent evt) {
                 dyTFFocusLost(evt);
@@ -603,7 +605,7 @@ public class HoloJFrame extends javax.swing.JFrame {
             }
         });
 
-        distanceTF.setText("0.00899");
+        distanceTF.setText("0.01");
         distanceTF.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent evt) {
                 distanceTFFocusLost(evt);
@@ -740,9 +742,9 @@ public class HoloJFrame extends javax.swing.JFrame {
         radius = getInteger(iterationsTF);
     }                                  
 
-    private void ratioTFFocusLost(java.awt.event.FocusEvent evt) {                                  
-        ratio = getInteger(ratioTF);
-    }                                 
+//    private void ratioTFFocusLost(java.awt.event.FocusEvent evt) {
+//        ratio = getInteger(ratioTF);
+//    }
 
     private void sigmaTFFocusLost(java.awt.event.FocusEvent evt) {
         //TBC = getInteger(yTF);
@@ -776,9 +778,9 @@ public class HoloJFrame extends javax.swing.JFrame {
         Tolerance = getDouble(toleranceTF);
     }                                   
 
-    private void ratioTFActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        ratio=getInteger(ratioTF);
-    }                                       
+//    private void ratioTFActionPerformed(java.awt.event.ActionEvent evt) {
+//        ratio=getInteger(ratioTF);
+//    }
 
     private void iterationsTFActionPerformed(java.awt.event.ActionEvent evt) {
         radius=getInteger(iterationsTF);
@@ -880,7 +882,7 @@ public class HoloJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    //private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -889,7 +891,7 @@ public class HoloJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField pathTF;
     private javax.swing.JCheckBox phaseCB;
     private javax.swing.JTextField iterationsTF;
-    private javax.swing.JTextField ratioTF;
+    //private javax.swing.JTextField ratioTF;
     private javax.swing.JComboBox refCB;
     private javax.swing.JButton rholoB;
     private javax.swing.JTextField wavelengthTF;

@@ -1,10 +1,15 @@
 package holoj;
 
 import ij.*;
+import ij.gui.Overlay;
+import ij.gui.PointRoi;
+import ij.gui.TextRoi;
 import ij.plugin.filter.MaximumFinder;
 import ij.process.*;
 import java.awt.*;
 import ij.gui.Roi;
+import org.junit.jupiter.api.Test;
+
 import java.lang.*;
 
 /**
@@ -568,33 +573,97 @@ public final class HoloJUtils {
             return holoRec;
     }
 
-    public static HoloJProcessor reconstruct(HoloJProcessor hologram, double distance, double wavelength, int iterations, double tolerance, double threshold){
+    public static HoloJProcessor reconstruct(HoloJProcessor hologram,HoloJProcessor reference, double distance, double wavelength, int iterations, double tolerance, int radius){
         HoloJProcessor recon = new HoloJProcessor(hologram);
-        for(int i=0;i<iterations;i++){
-            recon = propogatefunc(recon,distance,wavelength);
-            MaximumFinder m = new MaximumFinder();
-            ImagePlus amplitude = recon.makeAmplitudeImage("Amplitude");
-            ImageProcessor amplitudeProcessor = amplitude.getProcessor();
-            amplitudeProcessor.invert();
-            Image pointsImage = m.findMaxima(amplitudeProcessor,tolerance,0,false).createImage();
-            ImagePlus x = new ImagePlus("points", pointsImage);
-            ImageProcessor Mask = x.getProcessor();
+        HoloJProcessor ref = new HoloJProcessor(reference);
+        recon = propogatefunc(recon,distance,wavelength);
+        ref = propogatefunc(ref,distance,wavelength);
 
-            //Mask.blurGaussian(2);
-            HoloJProcessor holoMask = new HoloJProcessor(Mask);
-            for(int j=0;j<holoMask.realPixels.length;j++){
-                if(holoMask.realPixels[j]>0)
-                    holoMask.realPixels[j]=1;
-                if(holoMask.complexPixels[j]>0)
-                    holoMask.complexPixels[j]=1;
-            }
 
-            holoMask.show("guassian");
+        //Building Mask
+        ImagePlus amplitude = recon.makeAmplitudeImage("Amplitude");
 
-            //_ binary threshold<- hopefully give back double array
+        ImageProcessor amplitudeProcessor = amplitude.getProcessor();
+        MaximumFinder max = new MaximumFinder();
+        amplitudeProcessor.invert();
+        Image pointsImage = max.findMaxima(amplitudeProcessor,tolerance,0,false).createImage();
+        ImagePlus x = new ImagePlus("points", pointsImage);
+        ImageProcessor Mask = x.getProcessor();
 
-            // need method to take holoJprocessor and double[] and ,multiply real and complex <- done
+        //getting reference background average
+        double[] refIntensity = ref.getIntensity();
+        double refAvg=0.0;
+        for(int j=0;j<refIntensity.length;j++){
+            refAvg+=refIntensity[j];
         }
+        refAvg = refAvg/refIntensity.length;
+
+
+
+        //Create convolution kernal
+        float[] kernal = new float[(int)Math.pow(((2*radius)+1),2)];
+        for (int n= (-radius);n<=radius;n++){
+            for (int m= (-radius);m<=radius;m++){
+                if(((n*n)+(m*m))<(radius*radius))
+                    kernal[(n+radius)+((m+radius)*((2*radius)+1))] = 1;
+                else
+                    kernal[(n+radius)+((m+radius)*((2*radius)+1))] = 0;
+            }
+        }
+
+        Mask.convolve(kernal,((radius*2)+1),((radius*2)+1));
+
+        HoloJProcessor holoMask = new HoloJProcessor(Mask);
+        for(int j=0;j<holoMask.realPixels.length;j++){
+            if(holoMask.realPixels[j]>0)
+                holoMask.realPixels[j]=1;
+            if(holoMask.imagPixels[j]>0)
+                holoMask.imagPixels[j]=1;
+        }
+
+
+        double[] recIntensity = recon.getIntensity();
+        double recAvg=0.0;
+        double scale;
+        for(int i=0;i<iterations;i++){
+
+            recIntensity = recon.getIntensity();
+            recAvg=0.0;
+
+
+            for(int j=0;j<recIntensity.length;j++){
+                recAvg+=recIntensity[j];
+            }
+            recAvg = recAvg/recIntensity.length;
+
+
+            scale = Math.pow(recAvg/refAvg,0.5);
+
+            for(int j=0;j<recon.getSize();j++){
+                if( holoMask.realPixels[j]<0.1) {
+                    recon.realPixels[j] = scale * ref.realPixels[j];
+                    recon.imagPixels[j] = scale * ref.imagPixels[j];
+                }
+            }
+            recon.show("after mask multiply");
+            recon = propogatefunc(recon,-distance,wavelength);
+            recon.show("after propagate");
+
+            for(int j=0;j<recon.getSize();j++){
+                scale=Math.pow(Math.pow(hologram.realPixels[j],2)+Math.pow(hologram.imagPixels[j],2),0.5);
+                scale=scale/(Math.pow(Math.pow(recon.realPixels[j],2)+Math.pow(recon.imagPixels[j],2),0.5));
+                recon.realPixels[j] = scale * recon.realPixels[j];
+                recon.imagPixels[j] = scale * recon.imagPixels[j];
+            }
+            recon.show("before 2nd propagate");
+
+            recon = propogatefunc(recon,distance,wavelength);
+            recon.show("after 2nd propagate");
+
+        }
+
+
+
 
         return recon;
     }
@@ -602,21 +671,24 @@ public final class HoloJUtils {
     //for Previewing image
     public static void previewPoints(HoloJProcessor hologram, double distance, double wavelength, int iterations, double tolerance,double threshold){
         HoloJProcessor recon = new HoloJProcessor(hologram);
+        recon = propogatefunc(recon,distance,wavelength);
         MaximumFinder m = new MaximumFinder();
         ImagePlus amplitude = recon.makeAmplitudeImage("Amplitude");
         ImageProcessor amplitudeProcessor = amplitude.getProcessor();
         amplitudeProcessor.invert();
         ByteProcessor points = m.findMaxima(amplitudeProcessor,tolerance,0,false);
 
-        Image pointsImage = points.createImage();
-        ImagePlus x = new ImagePlus("points", pointsImage);
-        ImageProcessor Mask = x.getProcessor();
-        HoloJProcessor holoMask = new HoloJProcessor(Mask);
-        
-
-        holoMask.show("guassian");
-
-
+        Overlay overlay = new Overlay();
+        for (int i=0;i<=amplitudeProcessor.getWidth()-1;i++){
+            for (int j=0;j<=amplitudeProcessor.getHeight()-1;j++){
+                if (points.getf(i,j)!=0.0f){
+                    Roi roi = new PointRoi(i,j);
+                    overlay.add(roi);
+                }
+            }
+        }
+        amplitude.setOverlay(overlay);
+        amplitude.show();
     }
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -632,7 +704,7 @@ public final class HoloJUtils {
             HoloJProcessor propagated = new HoloJProcessor(hologram);
 			propagated.doFFT();
 			HoloJProcessor chirp = new HoloJProcessor(propagated.getWidth(), propagated.getHeight(), propagated.getDx(), propagated.getDy(), distance, wavelength);//THIS returns a HOLOJPROCESSOR with math Done
-            propagated = multiply(chirp, propagated);  //TODO: chirp returns NaN pixels
+            propagated = multiply(chirp, propagated);
 			propagated.doInverseFFT();
             return propagated;//the propagated HoloJprocessor
     }
@@ -644,7 +716,7 @@ public final class HoloJUtils {
             hologram = multiply(chirp, hologram);
 			hologram.doInverseFFT();
 			
-			//HoloJProcessor propagated_ref = new HoloJProcessor(ref.realPixels, ref.complexPixels, width, height);
+			//HoloJProcessor propagated_ref = new HoloJProcessor(ref.realPixels, ref.imagPixels, width, height);
 			ref.doFFT();
 			ref = multiply(chirp, ref);
 			ref.doInverseFFT();
@@ -969,7 +1041,7 @@ public final class HoloJUtils {
     public HoloJProcessor multiply(HoloJProcessor holo, double[] array){
         for (int i=0; i<holo.getSize();i++){
             holo.realPixels[i]=holo.realPixels[i] * array[i];
-            holo.complexPixels[i]=holo.complexPixels[i] * array[i];
+            holo.imagPixels[i]=holo.imagPixels[i] * array[i];
         }
         return holo;
     }
