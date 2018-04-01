@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6427e6a-5e2c-4046-95ea-942bb6277b3d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Matlab Files/First_test.m" beforeDir="false" afterPath="$PROJECT_DIR$/Matlab Files/First_test.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/holoj/HoloJProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/holoj/HoloJProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/holoj/HoloJProcessorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/holoj/HoloJProcessorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Image_11.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/plugins.config" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/test.tif" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="HoloJFrame.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HoloJFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="14">
-              <caret line="78" column="34" lean-forward="true" selection-start-line="78" selection-start-column="34" selection-end-line="78" selection-end-column="34" />
+            <state relative-caret-position="206">
+              <caret line="78" column="37" lean-forward="true" selection-start-line="78" selection-start-column="37" selection-end-line="78" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#7633#7722#0" expanded="true" />
@@ -96,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HoloJUtils.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="HoloJUtils.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="581" column="68" lean-forward="true" selection-start-line="581" selection-start-column="8" selection-end-line="581" selection-end-column="68" />
+            <state relative-caret-position="204">
+              <caret line="648" column="13" selection-start-line="648" selection-start-column="13" selection-end-line="648" selection-end-column="13" />
               <folding>
                 <element signature="docComment;class#HoloJUtils#0" />
               </folding>
@@ -687,7 +679,7 @@
       <workItem from="1522067462083" duration="10409000" />
       <workItem from="1522221590837" duration="35000" />
       <workItem from="1522222495633" duration="2467000" />
-      <workItem from="1522243519926" duration="3448000" />
+      <workItem from="1522243519926" duration="4001000" />
     </task>
     <servers />
   </component>
@@ -724,7 +716,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="111223000" />
+    <option name="totallyTimeSpent" value="111776000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -737,7 +729,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.490232" weight="0.3285568" />
@@ -745,12 +736,12 @@
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.33028084" side_tool="true" visible="true" weight="0.29538462" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50549453" side_tool="true" visible="true" weight="0.32923076" />
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.32967034" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.497558" weight="0.32958034" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.66971916" visible="true" weight="0.29538462" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.495116" weight="0.32958034" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.66971916" weight="0.29538462" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.4945055" visible="true" weight="0.32923076" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17826618" />
@@ -1710,16 +1701,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="581" column="68" lean-forward="true" selection-start-line="581" selection-start-column="8" selection-end-line="581" selection-end-column="68" />
-          <folding>
-            <element signature="docComment;class#HoloJUtils#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/net/imagej/ij/1.51h/ij-1.51h-sources.jar!/ij/plugin/filter/MaximumFinder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -1810,8 +1791,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="78" column="34" lean-forward="true" selection-start-line="78" selection-start-column="34" selection-end-line="78" selection-end-column="34" />
+        <state relative-caret-position="206">
+          <caret line="78" column="37" lean-forward="true" selection-start-line="78" selection-start-column="37" selection-end-line="78" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#7633#7722#0" expanded="true" />
@@ -1861,6 +1842,16 @@
             <element signature="e#35405#35406#0" expanded="true" />
             <element signature="e#35470#35471#0" expanded="true" />
             <element signature="e#35506#35507#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/holoj/HoloJUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="648" column="13" selection-start-line="648" selection-start-column="13" selection-end-line="648" selection-end-column="13" />
+          <folding>
+            <element signature="docComment;class#HoloJUtils#0" />
           </folding>
         </state>
       </provider>
