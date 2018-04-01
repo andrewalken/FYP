@@ -3,12 +3,10 @@ package holoj;
 import ij.*;
 import ij.gui.Overlay;
 import ij.gui.PointRoi;
-import ij.gui.TextRoi;
 import ij.plugin.filter.MaximumFinder;
 import ij.process.*;
 import java.awt.*;
 import ij.gui.Roi;
-import org.junit.jupiter.api.Test;
 
 import java.lang.*;
 
@@ -287,7 +285,7 @@ public final class HoloJUtils {
         Point maxPos = new Point(0,0);
         double curVal = 0.0;
         double[] realPixels = processor.getRealPixelsArray();
-        double[] complexPixels = processor.getComplexPixelsArray();
+        double[] complexPixels = processor.getImagPixelsArray();
         int height = processor.getHeight();
         int width = processor.getWidth();
         for (int row = 0; row < height; row++)
@@ -313,7 +311,7 @@ public final class HoloJUtils {
         Point maxPos = new Point(0,0);
         double curVal = 0.0;
         double[] realPixels = processor.getRealPixelsArray();
-        double[] complexPixels = processor.getComplexPixelsArray();
+        double[] complexPixels = processor.getImagPixelsArray();
         int height = processor.getHeight();
         int width = processor.getWidth();
         for (int row = 0; row < height; row++)
@@ -347,7 +345,7 @@ public final class HoloJUtils {
         double maxValue = Double.NEGATIVE_INFINITY;
         Point maxPos = new Point(0,0);
         double[] realPixels = processor.getRealPixelsArray();
-        double[] complexPixels = processor.getComplexPixelsArray();
+        double[] complexPixels = processor.getImagPixelsArray();
         int height = processor.getHeight();
         int width = processor.getWidth();
         int xC = width >> 1;
@@ -386,7 +384,7 @@ public final class HoloJUtils {
     */
     public static HoloJProcessor sum(HoloJProcessor operand, double realValue, double complexValue){
             double[] realPixels = operand.getRealPixelsArray();
-            double[] complexPixels = operand.getComplexPixelsArray();
+            double[] complexPixels = operand.getImagPixelsArray();
             int size = operand.getSize();
             for (int i=0; i<size; i++) {
                     realPixels[i] += realValue;
@@ -406,7 +404,7 @@ public final class HoloJUtils {
     */
     public static HoloJProcessor subtract(HoloJProcessor operand, double realValue, double complexValue){
         double[] realPixels = operand.getRealPixelsArray();
-        double[] complexPixels = operand.getComplexPixelsArray();
+        double[] complexPixels = operand.getImagPixelsArray();
         int size = operand.getSize();
         for (int i=0; i<size; i++) {
                 realPixels[i] -= realValue;
@@ -425,7 +423,7 @@ public final class HoloJUtils {
     */
     public static HoloJProcessor multiply(HoloJProcessor operand, double value){
         double[] realPixels = operand.getRealPixelsArray();
-        double[] complexPixels = operand.getComplexPixelsArray();
+        double[] complexPixels = operand.getImagPixelsArray();
         int size = operand.getSize();
         for (int i=0; i<size; i++) {
                 realPixels[i] *= value;
@@ -444,7 +442,7 @@ public final class HoloJUtils {
     */
     public static HoloJProcessor divide(HoloJProcessor operand, double value){
         double[] realPixels = operand.getRealPixelsArray();
-        double[] complexPixels = operand.getComplexPixelsArray();
+        double[] complexPixels = operand.getImagPixelsArray();
         int size = operand.getSize();
         for (int i=0; i<size; i++) {
                 realPixels[i] /= value;
@@ -468,8 +466,8 @@ public final class HoloJUtils {
             throw new IndexOutOfBoundsException("sum: sizes must be equal.");
         double[] realPixels1 = operand1.getRealPixelsArray();
         double[] realPixels2 = operand2.getRealPixelsArray();
-        double[] complexPixels1 = operand1.getComplexPixelsArray();
-        double[] complexPixels2 = operand2.getComplexPixelsArray();
+        double[] complexPixels1 = operand1.getImagPixelsArray();
+        double[] complexPixels2 = operand2.getImagPixelsArray();
         double[] resultReal = new double[operand1.getSize()];
         double[] resultComplex = new double[operand1.getSize()];
         for (int i=0; i<operand1.getSize(); i++) {
@@ -492,8 +490,8 @@ public final class HoloJUtils {
             throw new IndexOutOfBoundsException("subtract: sizes must be equal.");
         double[] realPixels1 = operand1.getRealPixelsArray();
         double[] realPixels2 = operand2.getRealPixelsArray();
-        double[] complexPixels1 = operand1.getComplexPixelsArray();
-        double[] complexPixels2 = operand2.getComplexPixelsArray();
+        double[] complexPixels1 = operand1.getImagPixelsArray();
+        double[] complexPixels2 = operand2.getImagPixelsArray();
         double[] resultReal = new double[operand1.getSize()];
         double[] resultComplex = new double[operand1.getSize()];
         for (int i=0; i<operand1.getSize(); i++) {
@@ -516,8 +514,8 @@ public final class HoloJUtils {
                     throw new IndexOutOfBoundsException("multiply: sizes must be equal.");
             double[] realPixels1 = operand1.getRealPixelsArray();
             double[] realPixels2 = operand2.getRealPixelsArray();
-            double[] complexPixels1 = operand1.getComplexPixelsArray();
-            double[] complexPixels2 = operand2.getComplexPixelsArray();
+            double[] complexPixels1 = operand1.getImagPixelsArray();
+            double[] complexPixels2 = operand2.getImagPixelsArray();
             double[] resultReal = new double[operand1.getSize()];
             double[] resultComplex = new double[operand1.getSize()];
             for (int i=0; i<operand1.getSize(); i++) {
@@ -540,8 +538,8 @@ public final class HoloJUtils {
             throw new IndexOutOfBoundsException("divide: sizes must be equal.");
         double[] realPixels1 = operand1.getRealPixelsArray();
         double[] realPixels2 = operand2.getRealPixelsArray();
-        double[] complexPixels1 = operand1.getComplexPixelsArray();
-        double[] complexPixels2 = operand2.getComplexPixelsArray();
+        double[] complexPixels1 = operand1.getImagPixelsArray();
+        double[] complexPixels2 = operand2.getImagPixelsArray();
         double[] resultReal = new double[operand1.getSize()];
         double[] resultComplex = new double[operand1.getSize()];
         for (int i=0; i<operand1.getSize(); i++) {
@@ -588,6 +586,7 @@ public final class HoloJUtils {
         amplitudeProcessor.invert();
         Image pointsImage = max.findMaxima(amplitudeProcessor,tolerance,0,false).createImage();
         ImagePlus x = new ImagePlus("points", pointsImage);
+        x.show("poins");
         ImageProcessor Mask = x.getProcessor();
 
         //getting reference background average
@@ -614,13 +613,13 @@ public final class HoloJUtils {
         Mask.convolve(kernal,((radius*2)+1),((radius*2)+1));
 
         HoloJProcessor holoMask = new HoloJProcessor(Mask);
+
         for(int j=0;j<holoMask.realPixels.length;j++){
             if(holoMask.realPixels[j]>0)
                 holoMask.realPixels[j]=1;
             if(holoMask.imagPixels[j]>0)
                 holoMask.imagPixels[j]=1;
         }
-
 
         double[] recIntensity = recon.getIntensity();
         double recAvg=0.0;
@@ -645,9 +644,9 @@ public final class HoloJUtils {
                     recon.imagPixels[j] = scale * ref.imagPixels[j];
                 }
             }
-            recon.show("after mask multiply");
+            //recon.show("after mask multiply");
             recon = propogatefunc(recon,-distance,wavelength);
-            recon.show("after propagate");
+           // recon.show("after propagate");
 
             for(int j=0;j<recon.getSize();j++){
                 scale=Math.pow(Math.pow(hologram.realPixels[j],2)+Math.pow(hologram.imagPixels[j],2),0.5);
@@ -655,15 +654,12 @@ public final class HoloJUtils {
                 recon.realPixels[j] = scale * recon.realPixels[j];
                 recon.imagPixels[j] = scale * recon.imagPixels[j];
             }
-            recon.show("before 2nd propagate");
+        //    recon.show("before 2nd propagate");
 
             recon = propogatefunc(recon,distance,wavelength);
-            recon.show("after 2nd propagate");
+           // recon.show("after 2nd propagate");
 
         }
-
-
-
 
         return recon;
     }
@@ -994,7 +990,7 @@ public final class HoloJUtils {
         double realAdd = Math.cos(angle);
         double complexAdd = Math.sin(angle);
         double[] realPixels = processor.getRealPixelsArray();
-        double[] complexPixels = processor.getComplexPixelsArray();
+        double[] complexPixels = processor.getImagPixelsArray();
         for (int i=0; i<processor.getSize(); i++){
             realPixels[i] += realAdd;
             complexPixels[i] += complexAdd;
@@ -1013,7 +1009,7 @@ public final class HoloJUtils {
         if (processor.getSize() != plateArray.length) 
             throw new IndexOutOfBoundsException("addPhasePlate: size of the phase-plate must be the same of HoloJProcessor.");
         double[] realPixels = processor.getRealPixelsArray();
-        double[] complexPixels = processor.getComplexPixelsArray();
+        double[] complexPixels = processor.getImagPixelsArray();
         for (int i=0; i<processor.getSize(); i++) {
             realPixels[i]+=Math.cos(plateArray[i]);
             complexPixels[i]+=Math.sin(plateArray[i]);

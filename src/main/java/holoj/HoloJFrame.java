@@ -99,16 +99,10 @@ public class HoloJFrame extends javax.swing.JFrame {
             {
                 throw new ArrayStoreException("reconstruct: No hologram or reference selected.");
             }
-			else if (ref == null)
-            {
+			else {
                 recon = HoloJUtils.propogatefunc(rec, distance, wavelength);
-
             }
-			else 
-			{
-				recon = HoloJUtils.propogatefunc(rec, distance, wavelength);
 
-            }
             //rec.setCalibration(imageCal);
             recon.setTitle(""+title);
 			if (phase) recon.showPhase("Hologram : "+recon.getTitle()+" : Phase");

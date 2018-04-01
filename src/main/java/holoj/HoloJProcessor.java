@@ -308,7 +308,7 @@ public class HoloJProcessor {
         return this.realPixels;
     }
 
-    public double[] getComplexPixelsArray() {
+    public double[] getImagPixelsArray() {
         return this.imagPixels;
     }
 
@@ -316,7 +316,7 @@ public class HoloJProcessor {
         this.realPixels = var1;
     }
 
-    public void setComplexPixelsArray(double[] var1) {
+    public void setImagPixelsArray(double[] var1) {
         this.imagPixels = var1;
     }
 
@@ -345,7 +345,7 @@ public class HoloJProcessor {
             throw new IndexOutOfBoundsException("add: sizes must be equal.");
         } else {
             double[] var2 = var1.getRealPixelsArray();
-            double[] var3 = var1.getComplexPixelsArray();
+            double[] var3 = var1.getImagPixelsArray();
 
             for(int var4 = 0; var4 < this.size; ++var4) {
                 this.realPixels[var4] += var2[var4];
@@ -361,7 +361,7 @@ public class HoloJProcessor {
             throw new IndexOutOfBoundsException("subtract: sizes must be equal.");
         } else {
             double[] var2 = var1.getRealPixelsArray();
-            double[] var3 = var1.getComplexPixelsArray();
+            double[] var3 = var1.getImagPixelsArray();
 
             for(int var4 = 0; var4 < this.size; ++var4) {
                 this.realPixels[var4] -= var2[var4];
@@ -377,7 +377,7 @@ public class HoloJProcessor {
             throw new IndexOutOfBoundsException("multiply: sizes must be equal.");
         } else {
             double[] var2 = var1.getRealPixelsArray();
-            double[] var3 = var1.getComplexPixelsArray();
+            double[] var3 = var1.getImagPixelsArray();
 
             for(int var4 = 0; var4 < this.size; ++var4) {
                 double var5 = this.realPixels[var4] * var2[var4] - this.imagPixels[var4] * var3[var4];
@@ -519,7 +519,7 @@ public class HoloJProcessor {
             throw new IndexOutOfBoundsException("divide: sizes must be equal.");
         } else {
             double[] var2 = var1.getRealPixelsArray();
-            double[] var3 = var1.getComplexPixelsArray();
+            double[] var3 = var1.getImagPixelsArray();
 
             for(int var4 = 0; var4 < this.size; ++var4) {
                 double var5 = (this.realPixels[var4] * var2[var4] - this.imagPixels[var4] * var3[var4]) / (var2[var4] * var2[var4] + var3[var4] * var3[var4]);

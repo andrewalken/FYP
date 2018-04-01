@@ -3,8 +3,8 @@ dx = 1.6e-6;
 dy = 1.6e-6;
 z2= -1e-3;
 wavelength = 633e-9;
-INTENSITY = imread('rec.tif');
-REFERENCE = imread('ref.tif');
+INTENSITY = imread('raw.tif');
+REFERENCE = imread('slide1.tif');
 if true   
    row=1024;  col=1024;
 %fin=fopen('Bare Sensor.raw','r');
@@ -15,15 +15,6 @@ if true
 %INTENSITY=INTENSITY';
 figure;imagesc(INTENSITY);colormap gray; axis equal;
 end
-% 
-% INTENSITY1 = INTENSITY(1:2:end,1:2:end);
-% INTENSITY2 = INTENSITY(2:2:end,2:2:end);
-% INTENSITY3 = INTENSITY(1:2:end,2:2:end);
-% INTENSITY4 = INTENSITY(2:2:end,1:2:end);
-% figure;imagesc(INTENSITY1);colormap gray; axis equal;
-% figure;imagesc(INTENSITY2);colormap gray; axis equal;
-% figure;imagesc(INTENSITY3);colormap gray; axis equal;
-% figure;imagesc(INTENSITY4);colormap gray; axis equal;
 
  % N=30;
  % for i=1:1:N
