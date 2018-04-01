@@ -7,3 +7,9 @@ different IDE than you.
 I will be using this as a basis for my final year project, Where I will 
 create a plugin that will reconstruct & clarify images of cells taken from 
 a monochrome image sensor.
+
+To setup this software : 
+    clone the repository
+    import as a maven project, 
+    edit the configuration to have "com.mycompany.imagej.Reconstruct" as the Main class
+    Use Java JDK V1.8
