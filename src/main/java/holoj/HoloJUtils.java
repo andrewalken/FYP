@@ -9,6 +9,7 @@ import java.awt.*;
 import ij.gui.Roi;
 
 import java.lang.*;
+import java.util.Arrays;
 
 /**
  * Class HoloJUtils contains static methods to perform useful task such as FFT and other mathematics.
@@ -586,7 +587,6 @@ public final class HoloJUtils {
         amplitudeProcessor.invert();
         Image pointsImage = max.findMaxima(amplitudeProcessor,tolerance,0,false).createImage();
         ImagePlus x = new ImagePlus("points", pointsImage);
-        x.show("poins");
         ImageProcessor Mask = x.getProcessor();
 
         //getting reference background average
@@ -610,20 +610,31 @@ public final class HoloJUtils {
             }
         }
 
-        Mask.convolve(kernal,((radius*2)+1),((radius*2)+1));
+            Mask.convolve(kernal,((radius*2)+1),((radius*2)+1));
 
         HoloJProcessor holoMask = new HoloJProcessor(Mask);
+          //WORKS FOR RADIUS LESS THAN 13
+        double real[] = new double[holoMask.getSize()];
+        double imag[] = new double[holoMask.getSize()];
 
         for(int j=0;j<holoMask.realPixels.length;j++){
-            if(holoMask.realPixels[j]>0)
-                holoMask.realPixels[j]=1;
-            if(holoMask.imagPixels[j]>0)
-                holoMask.imagPixels[j]=1;
+            if(holoMask.realPixels[j]>0) {
+                real[j] = 1.0;
+            }else if (holoMask.realPixels[j]<=0){
+                real[j] = 0.0;
+            }
+            if(holoMask.imagPixels[j]>0){
+                imag[j] = 1.0;
+            } else if (holoMask.imagPixels[j]<=0) {
+                imag[j] = 1.0;
+            }
         }
-
+        holoMask.setImagPixelsArray(imag);
+        holoMask.setRealPixelsArray(real);
         double[] recIntensity = recon.getIntensity();
         double recAvg=0.0;
         double scale;
+
         for(int i=0;i<iterations;i++){
 
             recIntensity = recon.getIntensity();
@@ -638,22 +649,30 @@ public final class HoloJUtils {
 
             scale = Math.pow(recAvg/refAvg,0.5);
 
-            for(int j=0;j<recon.getSize();j++){
-                if( holoMask.realPixels[j]<0.1) {
-                    recon.realPixels[j] = scale * ref.realPixels[j];
-                    recon.imagPixels[j] = scale * ref.imagPixels[j];
-                }
-            }
-            //recon.show("after mask multiply");
-            recon = propogatefunc(recon,-distance,wavelength);
-           // recon.show("after propagate");
+            double realMult[] = new double[holoMask.getSize()];
+            double imagMult[] = new double[holoMask.getSize()];
+
 
             for(int j=0;j<recon.getSize();j++){
-                scale=Math.pow(Math.pow(hologram.realPixels[j],2)+Math.pow(hologram.imagPixels[j],2),0.5);
-                scale=scale/(Math.pow(Math.pow(recon.realPixels[j],2)+Math.pow(recon.imagPixels[j],2),0.5));
-                recon.realPixels[j] = scale * recon.realPixels[j];
-                recon.imagPixels[j] = scale * recon.imagPixels[j];
+                if( holoMask.realPixels[j]>0.0) { //inside mask
+                    realMult[j] =  recon.realPixels[j];
+                    imagMult[j] =  recon.imagPixels[j];
+                } else {
+                    realMult[j] = scale * ref.realPixels[j];
+                    imagMult[j] = scale * ref.imagPixels[j];
+
+                }
             }
+            recon.setRealPixelsArray(realMult);
+            recon.setImagPixelsArray(imagMult);
+            recon = propogatefunc(recon,-distance,wavelength);
+
+//            for(int j=0;j<recon.getSize();j++){
+//                scale=Math.pow(Math.pow(hologram.realPixels[j],2)+Math.pow(hologram.imagPixels[j],2),0.5);
+//                scale=scale/(Math.pow(Math.pow(recon.realPixels[j],2)+Math.pow(recon.imagPixels[j],2),0.5));
+//                recon.realPixels[j] = scale * recon.realPixels[j];
+//                recon.imagPixels[j] = scale * recon.imagPixels[j];
+//            }
         //    recon.show("before 2nd propagate");
 
             recon = propogatefunc(recon,distance,wavelength);

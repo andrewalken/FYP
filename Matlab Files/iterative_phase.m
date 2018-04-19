@@ -1,7 +1,7 @@
 close all;
 dx = 1.6e-6;
 dy = 1.6e-6;
-z2= -103e-6;
+z2= -0600e-6;
 wavelength = 579e-9;
 INTENSITY = imread('slide5.tif');
 REFERENCE = imread('raw.tif');
@@ -16,12 +16,12 @@ if true
 figure;imagesc(INTENSITY);colormap gray; axis equal;
 end
 
- % N=30;
- % for i=1:1:N
-      recon = angular_spectrum_method(sqrt(double(INTENSITY)), -z2, dx, dy, wavelength);
-      %figure;imagesc(abs(recon).^2);colormap gray; axis equal;
-  %    z2 = z2 + 0.1e-3;
-  %end
+%   N=30;
+%   for i=1:1:N
+%       recon = angular_spectrum_method(sqrt(double(INTENSITY)), -z2, dx, dy, wavelength);
+%       figure;imagesc(abs(recon(1:200,1:200).^2));colormap gray; axis equal;title(z2*1000);
+%       z2 = z2 + 0.1e-3;
+%   end
 
 
  

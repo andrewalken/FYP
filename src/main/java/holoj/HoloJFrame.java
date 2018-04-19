@@ -87,10 +87,13 @@ public class HoloJFrame extends javax.swing.JFrame {
 //			rec.setCalibration(imageCal);
             rec.setTitle(""+title);
 			rec.showHolo("Hologram : "+rec.getTitle()+" :");
+			rec.showAmplitude("Amplitude");
 		}
     } 
 	private void operate2(){
             HoloJProcessor recon;
+            holo=getHologramProcessor();
+            ref=getReferenceProcessor();
 			//imageCal.pixelWidth *= ratio;
             //imageCal.pixelHeight *= ratio;
 			wavelength=getDouble(wavelengthTF);
@@ -100,7 +103,7 @@ public class HoloJFrame extends javax.swing.JFrame {
                 throw new ArrayStoreException("reconstruct: No hologram or reference selected.");
             }
 			else {
-                recon = HoloJUtils.propogatefunc(rec, distance, wavelength);
+                recon = HoloJUtils.propogatefunc(holo, distance, wavelength);
             }
 
             //rec.setCalibration(imageCal);
@@ -599,7 +602,7 @@ public class HoloJFrame extends javax.swing.JFrame {
             }
         });
 
-        distanceTF.setText("0.01");
+        distanceTF.setText("0.001");
         distanceTF.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent evt) {
                 distanceTFFocusLost(evt);
